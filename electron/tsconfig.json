@@ -2,13 +2,12 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
+    "esModuleInterop": true,
     "sourceMap": true,
     "strict": true,
     "outDir": "../build",
     "rootDir": "../",
     "noEmitOnError": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["node_modules/@types"]
   }
 }
