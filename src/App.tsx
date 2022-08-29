@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { HashRouter, Route, Routes } from "react-router-dom";
+import { SingIn } from "./screens/SingIn/SingIn";
+import { SingUp } from "./screens/SingUp/SingUp";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<SingIn />} />
+          <Route path="/SingUp" element={<SingUp />} />
+        </Routes>
+      </HashRouter>
     </div>
   );
 }
