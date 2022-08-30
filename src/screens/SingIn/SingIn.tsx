@@ -1,17 +1,35 @@
-import { Input, Button } from "antd";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Input, Button, message } from "antd";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { logInWithEmailAndPassword } from "../../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/loginSlice";
 
 export const SingIn = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [loading, setLoading] = useState(false);
+  const nav = useNavigate();
+  const user = useSelector((state: any) => state.login.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user.email != "") nav("/Store");
+  }, []);
 
   const singIn = async () => {
+    setLoading(true);
     if (email && password) {
       const result = await logInWithEmailAndPassword(email, password);
-      if (result) console.log("authentcation succesfully: ", result);
-    }
+      console.log("RESULT: ", result);
+      if (result) {
+        console.log("authentcation succesfully: ", result);
+        message.success("SingIn Successfully");
+        dispatch(setUser({ uid: result.user.uid, email: email }));
+        nav("/store");
+      } else message.error("Invalid Credentials");
+    } else message.error("Missing Email or Password");
+    setLoading(false);
   };
 
   return (
@@ -33,8 +51,9 @@ export const SingIn = () => {
         style={{ width: "250px" }}
         placeholder="Password"
         onChange={(e) => setPassword(e.target.value)}
+        type="password"
       />
-      <Button style={{ marginTop: "10px" }} onClick={singIn}>
+      <Button style={{ marginTop: "10px" }} onClick={singIn} loading={loading}>
         Sing In
       </Button>
       <p style={{ marginTop: "15px" }}>

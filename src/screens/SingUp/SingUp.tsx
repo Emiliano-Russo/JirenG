@@ -1,17 +1,38 @@
-import { Input, Button } from "antd";
+import { Input, Button, message } from "antd";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import { registerWithEmailAndPassword } from "../../firebase";
+import { setUser } from "../../redux/loginSlice";
 
 export const SingUp = () => {
   const [username, setUsername] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [loading, setLoading] = useState(false);
+  const nav = useNavigate();
+  const dispatch = useDispatch();
 
-  const createAccount = () => {
+  const createAccount = async () => {
+    setLoading(true);
     console.log("creating account...");
     if (username && email && password)
-      registerWithEmailAndPassword(username, email, password);
+      registerWithEmailAndPassword(username, email, password)
+        .then((res) => {
+          message.success("Account Created");
+          dispatch(setUser({ uid: res.user.uid, email: email }));
+          nav("/Store");
+        })
+        .catch((e) => {
+          message.error("Couldn't Create Account :(");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    else {
+      message.error("Missing data");
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,19 +63,22 @@ export const SingUp = () => {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          disabled={loading}
         />
         <Input
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          disabled={loading}
         />
         <Input
           type={"password"}
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={loading}
         />
-        <Button onClick={createAccount} type="primary">
+        <Button loading={loading} onClick={createAccount} type="primary">
           Create
         </Button>
       </div>

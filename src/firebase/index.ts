@@ -28,18 +28,15 @@ export const registerWithEmailAndPassword = async (
   email: string,
   password: string
 ) => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
-    await addDoc(collection(db, "users"), {
-      uid: user.uid,
-      username,
-      authProvider: "local",
-      email,
-    });
-  } catch (err) {
-    console.error(err);
-  }
+  const res = await createUserWithEmailAndPassword(auth, email, password);
+  const user = res.user;
+  await addDoc(collection(db, "users"), {
+    uid: user.uid,
+    username,
+    authProvider: "local",
+    email,
+  });
+  return res;
 };
 
 export const sendPasswordReset = async (email: string) => {
