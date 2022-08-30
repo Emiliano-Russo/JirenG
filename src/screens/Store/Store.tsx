@@ -1,3 +1,3 @@
-export const Store = () => {
-  return <h1>Store</h1>;
+export const Store: React.FC = () => {
+  return <h1 style={{ marginTop: "5px" }}>Store</h1>;
 };
