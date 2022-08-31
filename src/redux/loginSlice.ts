@@ -4,6 +4,7 @@ interface User {
   uid: string;
   email: string;
   username: string;
+  isAdmin?:boolean;
 }
 
 function getInitialState() {
@@ -14,6 +15,7 @@ function getInitialState() {
       uid: "",
       email: "",
       username: "",
+      isAdmin:false
     };
 }
 

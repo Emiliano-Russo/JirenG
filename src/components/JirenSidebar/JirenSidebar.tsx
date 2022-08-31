@@ -20,8 +20,8 @@ interface PropsJirenSidebar {
 export const JirenSidebar = (props: PropsJirenSidebar) => {
   const [option, setOption] = useState<number>(0);
   const nav = useNavigate();
-  const username: string = useSelector(
-    (state: any) => state.login.user.username
+  const user = useSelector(
+    (state: any) => state.login.user
   );
   const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ export const JirenSidebar = (props: PropsJirenSidebar) => {
         }}
       >
         <h3 style={{ margin: 0, padding: "10px 0", color: "whitesmoke" }}>
-          {username}
+          {user.username}
         </h3>
         <LoginOutlined
           style={{ color: "white" }}
