@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface User {
   uid: string;
   email: string;
+  username: string;
 }
 
 function getInitialState() {
@@ -12,6 +13,7 @@ function getInitialState() {
     return {
       uid: "",
       email: "",
+      username: "",
     };
 }
 
@@ -26,9 +28,15 @@ export const loginSlice = createSlice({
       state.user = action.payload;
       localStorage.setItem("user", JSON.stringify(action.payload));
     },
+    logOut: (state) => {
+      console.log("Log Out");
+      const user = { email: "", uid: "", username: "" };
+      state.user = user;
+      localStorage.setItem("user", JSON.stringify(user));
+    },
   },
 });
 
-export const { setUser } = loginSlice.actions;
+export const { setUser, logOut } = loginSlice.actions;
 
 export default loginSlice.reducer;

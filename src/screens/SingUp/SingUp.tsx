@@ -20,7 +20,7 @@ export const SingUp = () => {
       registerWithEmailAndPassword(username, email, password)
         .then((res) => {
           message.success("Account Created");
-          dispatch(setUser({ uid: res.user.uid, email: email }));
+          dispatch(setUser({ uid: res.user.uid, email, username }));
           nav("/Store");
         })
         .catch((e) => {

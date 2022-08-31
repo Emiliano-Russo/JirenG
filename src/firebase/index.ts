@@ -6,7 +6,16 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { addDoc, getFirestore, collection } from "firebase/firestore";
+import {
+  addDoc,
+  getFirestore,
+  collection,
+  getDoc,
+  doc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 
@@ -37,6 +46,17 @@ export const registerWithEmailAndPassword = async (
     email,
   });
   return res;
+};
+
+export const getUsername = async (uid: string) => {
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("uid", "==", uid));
+  const querySnapshot = await getDocs(q);
+  // querySnapshot.forEach((doc) => {
+  //   // doc.data() is never undefined for query doc snapshots
+  //   console.log(doc.id, " => ", doc.data());
+  // });
+  return querySnapshot.docs[0].data().username;
 };
 
 export const sendPasswordReset = async (email: string) => {
