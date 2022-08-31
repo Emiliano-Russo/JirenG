@@ -18,7 +18,7 @@ interface PropsJirenSidebar {
 }
 
 export const JirenSidebar = (props: PropsJirenSidebar) => {
-  const [option, setOption] = useState<number>();
+  const [option, setOption] = useState<number>(0);
   const nav = useNavigate();
   const username: string = useSelector(
     (state: any) => state.login.user.username
@@ -67,7 +67,7 @@ export const JirenSidebar = (props: PropsJirenSidebar) => {
               type="link"
               icon={val.icon}
               style={{
-                backgroundColor: option == i ? "salmon" : "inherit",
+                backgroundColor: option == i ? "#E3256B" : "inherit",
                 textAlign: "left",
                 color: "white",
                 margin: "5px 0",
