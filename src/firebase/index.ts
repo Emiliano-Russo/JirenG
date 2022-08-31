@@ -59,6 +59,20 @@ export const getUsername = async (uid: string) => {
   return querySnapshot.docs[0].data().username;
 };
 
+export const usernameExists = async (username: string) => {
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("username", "==", username));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.length > 0;
+};
+
+export const emailExists = async (email: string) => {
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("email", "==", email));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.length > 0;
+};
+
 export const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);

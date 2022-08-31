@@ -2,7 +2,11 @@ import { Input, Button, message } from "antd";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { registerWithEmailAndPassword } from "../../firebase";
+import {
+  emailExists,
+  registerWithEmailAndPassword,
+  usernameExists,
+} from "../../firebase";
 import { setUser } from "../../redux/loginSlice";
 
 export const SingUp = () => {
@@ -16,7 +20,19 @@ export const SingUp = () => {
   const createAccount = async () => {
     setLoading(true);
     console.log("creating account...");
-    if (username && email && password)
+    if (username && email && password) {
+      const usernameTaken = await usernameExists(username);
+      if (usernameTaken) {
+        message.error("Username already taken");
+        setLoading(false);
+        return;
+      }
+      const emailTaken = await emailExists(email);
+      if (emailTaken) {
+        message.error("Email already taken");
+        setLoading(false);
+        return;
+      }
       registerWithEmailAndPassword(username, email, password)
         .then((res) => {
           message.success("Account Created");
@@ -29,7 +45,7 @@ export const SingUp = () => {
         .finally(() => {
           setLoading(false);
         });
-    else {
+    } else {
       message.error("Missing data");
       setLoading(false);
     }
