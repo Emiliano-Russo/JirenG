@@ -17,6 +17,7 @@ import { Installed } from "./screens/Installed/Installed";
 import { Settings } from "./screens/Settings/Settings";
 import { useSelector } from "react-redux";
 import { Admin } from "./screens/Admin/Admin";
+import { GameControlPanel } from "./screens/GameControlPanel/GameControlPanel";
 
 function App() {
   const buildWithJirenSidebar = (element: ReactNode) => {
@@ -87,6 +88,7 @@ function App() {
             element={buildWithJirenSidebar(<Settings />)}
           />
           <Route path="/Admin" element={buildWithJirenSidebar(<Admin />)} />
+          <Route path="/Admin/GameControlPanel" element={buildWithJirenSidebar(<GameControlPanel/>)}/>
         </Routes>
       </HashRouter>
     </div>

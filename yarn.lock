@@ -10821,6 +10821,11 @@ url-parse-lax@^3.0.0:
   dependencies:
     prepend-http "^2.0.0"
 
+use-pagination-firestore@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/use-pagination-firestore/-/use-pagination-firestore-0.6.0.tgz#b7f282d30bf914703d7a7df8936bb93c561871e6"
+  integrity sha512-fmhnZ7+cx1e6IpdzvTAIfjTftx2L6HJTWZdsJ85PqeQD5OMLw5eOdQYGgZdiOJXMA/z2B2fsSXQmic7lU0iTHg==
+
 use-sync-external-store@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"

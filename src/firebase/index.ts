@@ -16,6 +16,12 @@ import {
   where,
   getDocs,
   updateDoc,
+  limit,
+  startAfter,
+  orderBy,
+  startAt,
+  enableIndexedDbPersistence,
+  deleteDoc
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -31,7 +37,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+export const db = getFirestore(app);
+enableIndexedDbPersistence(db);
 
 export const registerWithEmailAndPassword = async (
   username: string,
@@ -81,6 +88,18 @@ export const emailExists = async (email: string) => {
   return querySnapshot.docs.length > 0;
 };
 
+export const getGames = async(index:number,amount:number) => {
+  const gamesRef = collection(db,"Games");
+  const q = query(gamesRef,orderBy("title"),startAt(index),limit(amount));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    console.log("DOC:",doc.data());
+  })
+  return querySnapshot  
+}
+
+
+
 export const changeUsername = async (uid: string, newUsername: string) => {
   const exists = await usernameExists(newUsername);
   console.log("EXISTS: ", exists);
@@ -88,7 +107,7 @@ export const changeUsername = async (uid: string, newUsername: string) => {
     console.log("Throwing new error");
     throw new Error("Username already taken");
   }
-  const usersRef = collection(db, "users");
+  const usersRef = collection(db, "users"); 
   const q = query(usersRef, where("uid", "==", uid));
   const querySnapshot = await getDocs(q);
   const userRef = querySnapshot.docs[0].ref;
@@ -96,6 +115,15 @@ export const changeUsername = async (uid: string, newUsername: string) => {
     username: newUsername,
   });
 };
+
+export const deleteGame = async(title:string) => {
+  const gamesRef = collection(db,"Games");
+  const q = query(gamesRef, where("title", "==", title));
+  const querySnapshot = await getDocs(q);
+  const gameRef = querySnapshot.docs[0].ref;
+  console.log("we are about to delete");
+  return deleteDoc(gameRef);
+}
 
 export const sendPasswordReset = async (email: string) => {
   try {
@@ -121,3 +149,4 @@ export const logInWithEmailAndPassword = async (
     console.error(err);
   }
 };
+

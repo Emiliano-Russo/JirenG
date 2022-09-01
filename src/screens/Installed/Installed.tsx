@@ -1,3 +1,3 @@
 export const Installed: React.FC = () => {
-  return <h1 style={{ marginTop: "5px" }}>Installed</h1>;
+  return <h1 style={{ margin: "5px auto" }}>Installed</h1>;
 };

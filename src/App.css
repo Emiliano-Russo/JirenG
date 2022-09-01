@@ -10,3 +10,7 @@
 .ant-menu-item-selected {
   background-color: rgb(120, 170, 228) !important;
 }
+
+.btnHover:hover{
+  cursor: pointer;
+}
