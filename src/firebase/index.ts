@@ -15,6 +15,7 @@ import {
   query,
   where,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -78,6 +79,22 @@ export const emailExists = async (email: string) => {
   const q = query(usersRef, where("email", "==", email));
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.length > 0;
+};
+
+export const changeUsername = async (uid: string, newUsername: string) => {
+  const exists = await usernameExists(newUsername);
+  console.log("EXISTS: ", exists);
+  if (exists) {
+    console.log("Throwing new error");
+    throw new Error("Username already taken");
+  }
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("uid", "==", uid));
+  const querySnapshot = await getDocs(q);
+  const userRef = querySnapshot.docs[0].ref;
+  updateDoc(userRef, {
+    username: newUsername,
+  });
 };
 
 export const sendPasswordReset = async (email: string) => {

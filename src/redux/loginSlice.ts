@@ -34,9 +34,13 @@ export const loginSlice = createSlice({
       state.user = user;
       localStorage.setItem("user", JSON.stringify(user));
     },
+    setNewUsername: (state, action: PayloadAction<string>) => {
+      state.user.username = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
+    },
   },
 });
 
-export const { setUser, logOut } = loginSlice.actions;
+export const { setUser, logOut, setNewUsername } = loginSlice.actions;
 
 export default loginSlice.reducer;
