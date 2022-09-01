@@ -8,7 +8,7 @@ import {
   DesktopOutlined,
   CloudDownloadOutlined,
   SettingOutlined,
-  UserOutlined
+  UserOutlined,
 } from "@ant-design/icons";
 import React, { ReactNode } from "react";
 import { Store } from "./screens/Store/Store";
@@ -16,14 +16,9 @@ import { Downloads } from "./screens/Downloads/Downloads";
 import { Installed } from "./screens/Installed/Installed";
 import { Settings } from "./screens/Settings/Settings";
 import { useSelector } from "react-redux";
-
-
-
-
+import { Admin } from "./screens/Admin/Admin";
 
 function App() {
-
-
   const buildWithJirenSidebar = (element: ReactNode) => {
     return (
       <div
@@ -40,9 +35,7 @@ function App() {
     );
   };
 
-  const user = useSelector((state:any) => state.login.user);
-  console.log("USER :))):",user);
-  
+  const user = useSelector((state: any) => state.login.user);
 
   const options: Option[] = [
     {
@@ -69,9 +62,9 @@ function App() {
 
   if (user.isAdmin)
     options.push({
-      text:"Admin",
-      icon:<UserOutlined />,
-      navTo:"/Admin"
+      text: "Admin",
+      icon: <UserOutlined />,
+      navTo: "/Admin",
     });
 
   return (
@@ -93,6 +86,7 @@ function App() {
             path="/Settings"
             element={buildWithJirenSidebar(<Settings />)}
           />
+          <Route path="/Admin" element={buildWithJirenSidebar(<Admin />)} />
         </Routes>
       </HashRouter>
     </div>

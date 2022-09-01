@@ -4,7 +4,7 @@ interface User {
   uid: string;
   email: string;
   username: string;
-  isAdmin?:boolean;
+  isAdmin?: boolean;
 }
 
 function getInitialState() {
@@ -15,7 +15,7 @@ function getInitialState() {
       uid: "",
       email: "",
       username: "",
-      isAdmin:false
+      isAdmin: false,
     };
 }
 
@@ -26,12 +26,10 @@ export const loginSlice = createSlice({
   },
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
-      console.log("setting user:", action);
       state.user = action.payload;
       localStorage.setItem("user", JSON.stringify(action.payload));
     },
     logOut: (state) => {
-      console.log("Log Out");
       const user = { email: "", uid: "", username: "" };
       state.user = user;
       localStorage.setItem("user", JSON.stringify(user));

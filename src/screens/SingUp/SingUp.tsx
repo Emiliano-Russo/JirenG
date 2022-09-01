@@ -19,7 +19,6 @@ export const SingUp = () => {
 
   const createAccount = async () => {
     setLoading(true);
-    console.log("creating account...");
     if (username && email && password) {
       const usernameTaken = await usernameExists(username);
       if (usernameTaken) {

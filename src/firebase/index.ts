@@ -66,6 +66,13 @@ export const usernameExists = async (username: string) => {
   return querySnapshot.docs.length > 0;
 };
 
+export const getUser = async (uid: string) => {
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("uid", "==", uid));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs[0].data();
+};
+
 export const emailExists = async (email: string) => {
   const usersRef = collection(db, "users");
   const q = query(usersRef, where("email", "==", email));

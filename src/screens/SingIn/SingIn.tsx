@@ -1,7 +1,11 @@
 import { Input, Button, message } from "antd";
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { getUsername, logInWithEmailAndPassword } from "../../firebase";
+import {
+  getUser,
+  getUsername,
+  logInWithEmailAndPassword,
+} from "../../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/loginSlice";
 
@@ -21,11 +25,17 @@ export const SingIn = () => {
     setLoading(true);
     if (email && password) {
       const result = await logInWithEmailAndPassword(email, password);
-      console.log("RESULT: ", result);
       if (result) {
-        const username = await getUsername(result.user.uid);
+        const resUser: any = await getUser(result.user.uid);
         message.success("SingIn Successfully");
-        dispatch(setUser({ uid: result.user.uid, email, username }));
+        dispatch(
+          setUser({
+            uid: result.user.uid,
+            email,
+            username: resUser.username,
+            isAdmin: resUser.isAdmin,
+          })
+        );
         nav("/store");
       } else message.error("Invalid Credentials");
     } else message.error("Missing Email or Password");
