@@ -23,6 +23,7 @@ import {
   enableIndexedDbPersistence,
   deleteDoc
 } from "firebase/firestore";
+import { LinkGame } from "../types/Game.interface";
 
 // Your web app's Firebase configuration
 
@@ -123,6 +124,10 @@ export const deleteGame = async(title:string) => {
   const gameRef = querySnapshot.docs[0].ref;
   console.log("we are about to delete");
   return deleteDoc(gameRef);
+}
+
+export const addNewGame = async (game:LinkGame) => {
+  return addDoc(collection(db, "Games"), game);
 }
 
 export const sendPasswordReset = async (email: string) => {

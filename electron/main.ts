@@ -4,7 +4,7 @@ import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-insta
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1400,
+    width: 1600,
     height: 900,
     webPreferences: {
       // contextIsolation: false,
