@@ -6,7 +6,7 @@ export interface TorrentGame extends Game {
     magnetUri: string
 }
 
-interface Game{
+export interface Game{
     title:string;
     imgUrl:string;
     size:string;

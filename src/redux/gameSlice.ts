@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LinkGame, TorrentGame } from "../types/Game.interface";
 
-function getInitialState() {
+function getInitialState():any[]{
   const string = localStorage.getItem("games");
   if (string != null) return JSON.parse(string);
   else return [];
@@ -24,9 +24,14 @@ export const gamesSlice = createSlice({
         localStorage.setItem("games", JSON.stringify([action.payload]));
       }
     },
+    removeGameFromDownloads: (state, action: PayloadAction<LinkGame | TorrentGame>) => {
+      const index = state.games.findIndex(v => v.title === action.payload.title);
+      state.games.splice(index,1);
+      localStorage.setItem("games",JSON.stringify(state.games));
+    }
   },
 });
 
-export const { addToDownloads } = gamesSlice.actions;
+export const { addToDownloads, removeGameFromDownloads } = gamesSlice.actions;
 
 export default gamesSlice.reducer;

@@ -1,6 +1,8 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { removeGameFromDownloads } from "../../redux/gameSlice";
 import { LinkGame, TorrentGame } from "../../types/Game.interface";
 
 interface Props {
@@ -8,12 +10,18 @@ interface Props {
 }
 
 export const GameCardDownload = (props: Props) => {
-  const [isDownloading, setIsDownloading] = useState(true);
-  const [progress, setProgress] = useState(80);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [progress, setProgress] = useState(100);
+  const dispatch = useDispatch();
 
   const getProgress = () => {
     return `inset(${progress}% 0px 0px 0px`;
   };
+
+  const removeFromDownloads = () => {
+    message.info("Game Removed");
+    dispatch(removeGameFromDownloads(props.game));
+  }
 
   return (
     <motion.div
@@ -57,17 +65,19 @@ export const GameCardDownload = (props: Props) => {
         )}
       </div>
 
-      <button
+      <Button
         style={{
           position: "absolute",
           top: "-10px",
           right: "-10px",
-          background: "red",
-          color: "black",
+          borderRadius:"10px"
         }}
+       danger
+       type="primary"
+       onClick={removeFromDownloads}
       >
         X
-      </button>
+      </Button>
     </motion.div>
   );
 };
