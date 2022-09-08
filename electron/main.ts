@@ -1,6 +1,42 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
+import { Index, IndexConstrcutor } from "./App/index";
+import { Downloader } from './App/BusinessLogic/downloader';
+import fs from "fs";
+import https from "https";
+import jsdom from "jsdom";
+import { JirenHelper } from "./App/jirenHelper";
+import child_process from "child_process";
+import { Cracker } from './App/BusinessLogic/cracker';
+import { Extractor } from './App/BusinessLogic/extractor';
+import  _7z from "7zip-min";
+import { Torrent } from './App/BusinessLogic/torrent';
+import { Wish } from './App/BusinessLogic/wish';
+const streamZip = require('node-stream-zip');
+const unrar = require('unrar-promise');
+const axios = require("axios");
+const os = require("os");
+const username = os.userInfo().username;
+
+const dir:string = "C:/Users/" + username + "/Documents/JirenGames";
+const jirenHelper = new JirenHelper(child_process,fs,dir);
+const downloader = new Downloader(fs,https,jsdom,axios,jirenHelper);
+const extractor = new Extractor(streamZip,fs,unrar,_7z,jirenHelper);
+const cracker = new Cracker(downloader,extractor,jirenHelper,fs);
+const torrent = new Torrent(child_process);
+const wish = new Wish();
+
+const buildedIndex:IndexConstrcutor = {
+  downloader: downloader,
+  cracker: cracker,
+  extractor:extractor,
+  jirenHelper:jirenHelper,
+  torrent:torrent,
+  wish:wish
+}
+
+const index = new Index(buildedIndex);
 
 function createWindow() {
   const win = new BrowserWindow({
