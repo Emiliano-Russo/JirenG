@@ -22,7 +22,7 @@ export const Store: React.FC = () => {
   console.log("games:", games);
 
   return (
-    <div>
+    <div style={{width:"100%"}}>
       <h1>Store</h1>
       <div
         style={{

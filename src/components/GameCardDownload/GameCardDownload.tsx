@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeGameFromDownloads } from "../../redux/gameSlice";
 import { LinkGame, TorrentGame } from "../../types/Game.interface";
+const { ipcRenderer } = window.require("electron");
 
 interface Props {
   game: LinkGame | TorrentGame;
@@ -21,6 +22,11 @@ export const GameCardDownload = (props: Props) => {
   const removeFromDownloads = () => {
     message.info("Game Removed");
     dispatch(removeGameFromDownloads(props.game));
+  }
+
+  const startDownload = () => {
+    console.log("Starting download");
+    ipcRenderer.send("download-game", props.game);
   }
 
   return (
@@ -57,7 +63,7 @@ export const GameCardDownload = (props: Props) => {
       />
       <div style={{ position: "absolute", top: "50%", width: "100%" }}>
         {!isDownloading ? (
-          <Button type="primary">Start Download</Button>
+          <Button type="primary" onClick={startDownload}>Start Download</Button>
         ) : (
           <div style={{ background: "black", opacity: "90%" }}>
             <h1 style={{ color: "white" }}>{progress}%</h1>

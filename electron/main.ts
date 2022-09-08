@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 
@@ -8,7 +8,9 @@ function createWindow() {
     height: 900,
     webPreferences: {
       // contextIsolation: false,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration:true,
+      contextIsolation:false,
     }
   })
 
@@ -54,3 +56,7 @@ app.whenReady().then(() => {
     }
   });
 });
+
+ipcMain.on("download-game", (event,gameName) => {
+  console.log("Downloading game...");
+})
