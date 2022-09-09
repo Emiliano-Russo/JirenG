@@ -10,22 +10,26 @@ import { JirenHelper } from "./App/jirenHelper";
 import child_process from "child_process";
 import { Cracker } from './App/BusinessLogic/cracker';
 import { Extractor } from './App/BusinessLogic/extractor';
-import  _7z from "7zip-min";
 import { Torrent } from './App/BusinessLogic/torrent';
 import { Wish } from './App/BusinessLogic/wish';
 const streamZip = require('node-stream-zip');
 const unrar = require('unrar-promise');
 const axios = require("axios");
+const _7z = require("7zip-min");
 const os = require("os");
 const username = os.userInfo().username;
 
 const dir:string = "C:/Users/" + username + "/Documents/JirenGames";
-const jirenHelper = new JirenHelper(child_process,fs,dir);
+const jirenHelper = new JirenHelper(child_process,fs,dir,);
 const downloader = new Downloader(fs,https,jsdom,axios,jirenHelper);
 const extractor = new Extractor(streamZip,fs,unrar,_7z,jirenHelper);
 const cracker = new Cracker(downloader,extractor,jirenHelper,fs);
 const torrent = new Torrent(child_process);
 const wish = new Wish();
+
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+}
 
 const buildedIndex:IndexConstrcutor = {
   downloader: downloader,
@@ -93,6 +97,8 @@ app.whenReady().then(() => {
   });
 });
 
-ipcMain.on("download-game", (event,gameName) => {
-  console.log("Downloading game...");
+ipcMain.on("download-game", (event:Electron.IpcMainEvent,game) => {
+  console.log("downloading...");
+  jirenHelper.setEvent(event,"feedback");
+  index.installGame(game);
 })

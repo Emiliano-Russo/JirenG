@@ -3,18 +3,30 @@ import * as FileSystem from "fs";
 import * as ChildProcess from "child_process";
 import { ExternalGame } from "./Abstraction/Types";
 import path from "path";
+import { IFeedback } from "./Abstraction/Feedback";
 
 export class JirenHelper implements IJirenHelper {
   private fs: typeof FileSystem;
   private basePath: string; //e.g: "C:/Users/UserName/Documents/JirenGames";
   private childProcess: typeof ChildProcess;
   private jirenDir: string;
+  private event : Electron.IpcMainEvent | undefined;
+  private channel :string = "feedback";
 
   constructor(childProcess: typeof ChildProcess, fs: typeof FileSystem, jirenDir: string) {
     this.fs = fs;
     this.basePath = jirenDir;
     this.childProcess = childProcess;
     this.jirenDir = jirenDir;
+  }
+
+  public setEvent(event: Electron.IpcMainEvent, channel:string){
+    this.event = event;
+    this.channel = channel;
+  }
+  
+  public sendFeedBack (text: string) {
+    this.event?.sender.send(this.channel,text);
   }
 
   public getJirenDir(): string {

@@ -69,6 +69,7 @@ export class Downloader implements IDownloader {
   }
 
   private async fetchMediafireDownloadLink(mediafireLink: string) {
+    console.log("fetching link...");
     const resp = await this.axios.default.get(mediafireLink);
     const dom = new this.jsdom.JSDOM(resp.data);
     const elements = dom.window.document.querySelectorAll("a");
@@ -102,9 +103,10 @@ export class Downloader implements IDownloader {
   private downloadProgress(response: any) {
     var len = parseInt(response.headers["content-length"], 10);
     var cur = 0;
-    response.on("data", function (chunk: any) {
+    response.on("data",  (chunk: any) => {
       cur += chunk.length;
       const result = "Downloading " + ((100.0 * cur) / len).toFixed(2) + "% ";
+      this.jirenHelper.sendFeedBack(result);
       //event.sender.send("feedBack", result);
     });
   }

@@ -6,6 +6,7 @@ import { ICracker } from "./Abstraction/Cracker";
 import { IIndex } from "./Abstraction/Index";
 import { ITorrent } from "./Abstraction/Torrent";
 import { IWish } from "./Abstraction/Wish";
+import { JirenHelper } from "./jirenHelper";
 
 export type IndexConstrcutor = {
   downloader: IDownloader;
@@ -51,6 +52,7 @@ export class Index implements IIndex {
   }
 
   private async install(game: DownloableGame): Promise<string> {
+    this.jirenHelper.sendFeedBack("Preparing game...");
     const contentPath: string = this.jirenHelper.makeFolder(this.jirenHelper.getJirenDir() + "/" + game.title); //All files of the game (zip parts, crack, gameFolder)
     const fileList: string[] = await this.downloader.download(game.gameLinks, contentPath);
     const gameFolder = contentPath + "/Game";

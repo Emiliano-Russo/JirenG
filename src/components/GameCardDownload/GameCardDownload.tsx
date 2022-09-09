@@ -1,6 +1,6 @@
 import { Button, message } from "antd";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeGameFromDownloads } from "../../redux/gameSlice";
 import { LinkGame, TorrentGame } from "../../types/Game.interface";
@@ -13,7 +13,21 @@ interface Props {
 export const GameCardDownload = (props: Props) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [progress, setProgress] = useState(100);
+  const [fb, setFb] = useState("");
   const dispatch = useDispatch();
+
+  const feedback = (event:any,arg?:any) => {
+    setFb(arg);
+  }
+
+  useEffect(() => {
+    ipcRenderer.on("feedback", feedback);
+
+    return () => {
+      ipcRenderer.removeListener("feedback", feedback);
+    };
+    
+  },[]);
 
   const getProgress = () => {
     return `inset(${progress}% 0px 0px 0px`;
@@ -26,6 +40,7 @@ export const GameCardDownload = (props: Props) => {
 
   const startDownload = () => {
     console.log("Starting download");
+    setIsDownloading(true);
     ipcRenderer.send("download-game", props.game);
   }
 
@@ -66,7 +81,7 @@ export const GameCardDownload = (props: Props) => {
           <Button type="primary" onClick={startDownload}>Start Download</Button>
         ) : (
           <div style={{ background: "black", opacity: "90%" }}>
-            <h1 style={{ color: "white" }}>{progress}%</h1>
+            <h1 style={{ color: "white" }}>{fb}</h1>
           </div>
         )}
       </div>
