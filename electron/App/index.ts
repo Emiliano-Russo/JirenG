@@ -53,11 +53,15 @@ export class Index implements IIndex {
 
   private async install(game: DownloableGame): Promise<string> {
     this.jirenHelper.sendFeedBack("Preparing game...");
-    const contentPath: string = this.jirenHelper.makeFolder(this.jirenHelper.getJirenDir() + "/" + game.title); //All files of the game (zip parts, crack, gameFolder)
-    const fileList: string[] = await this.downloader.download(game.gameLinks, contentPath);
-    const gameFolder = contentPath + "/Game";
-    this.jirenHelper.makeFolder(gameFolder);
+    console.log("########### game:",game);
+    const contentPath: string = this.jirenHelper.makeFolder("/" + game.title); //All files of the game (zip parts, crack, gameFolder)
+    console.log("content path: ",contentPath);
+    const fileList: string[] = await this.downloader.download(game.downloadLinks, contentPath);
+    console.log("&&&&&&& FILE LIST: ",fileList);
+    const gameFolder = this.jirenHelper.makeFolder("/Game");
+    console.log("GAME FOLDER: ",gameFolder);
     await this.extractor.extract(fileList, gameFolder);
+    console.log("EXTRACT:) ");
     return gameFolder;
   }
 

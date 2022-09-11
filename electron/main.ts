@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import * as path from 'path';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 import { Index, IndexConstrcutor } from "./App/index";
@@ -100,5 +100,10 @@ app.whenReady().then(() => {
 ipcMain.on("download-game", (event:Electron.IpcMainEvent,game) => {
   console.log("downloading...");
   jirenHelper.setEvent(event,"feedback");
-  index.installGame(game);
+  index.installGame(game).then((v) => {
+    console.log("value: ",v);
+  }).catch((err) => {
+    console.log("error: ",err);
+    dialog.showErrorBox("Error",err.message)
+  });
 })

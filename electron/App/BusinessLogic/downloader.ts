@@ -32,17 +32,17 @@ export class Downloader implements IDownloader {
     urlList: string[],
     folderPath: string
   ): Promise<string[]> {
+    console.log("DETECTING EXTENSION on url list ",urlList);
     const extension = await this.detectExtension(urlList[0]);
+    console.log("EXTENSION:",extension);
     const pathList: string[] = [];
-    const promises: Promise<void>[] = [];
     for (let i = 0; i < urlList.length; i++) {
       const link = urlList[i];
-      const partNumber = i + 1;
+      const partNumber = i+1;
       const finalPath = folderPath + "/part" + partNumber + "." + extension;
-      promises.push(this.downloadLink(link, finalPath));
-      pathList.push(finalPath);
+      await this.downloadLink(link,finalPath);
+      pathList.push(finalPath)
     }
-    await Promise.all(promises); // we wait for all links
     return pathList;
   }
 

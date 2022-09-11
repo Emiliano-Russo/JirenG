@@ -1,6 +1,6 @@
 export type DownloableGame = {
   title: string;
-  gameLinks: string[];
+  downloadLinks: string[];
   crackLink?: string;
 };
 
