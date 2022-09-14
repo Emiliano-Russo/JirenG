@@ -44,6 +44,8 @@ export class Index implements IIndex {
   public async installGame(game: DownloableGame) {
     const gameBasePath = await this.install(game);
     if (game.crackLink) await this.cracker.crackGame(gameBasePath, game.crackLink); // Very special function (it does many things!)
+    this.jirenHelper.setChannel("download-ready");
+    this.jirenHelper.sendFeedBack("game downloaded!");
   }
 
   public async installGameWithAssistant(game: DownloableGame, crackMark: CrackMark): Promise<void> {
@@ -53,13 +55,11 @@ export class Index implements IIndex {
 
   private async install(game: DownloableGame): Promise<string> {
     this.jirenHelper.sendFeedBack("Preparing game...");
-    console.log("########### game:",game);
     const contentPath: string = this.jirenHelper.makeFolder("/" + game.title); //All files of the game (zip parts, crack, gameFolder)
-    console.log("content path: ",contentPath);
+    console.log("//// ABOUT TO DOWNLOAD ////");
     const fileList: string[] = await this.downloader.download(game.downloadLinks, contentPath);
-    console.log("&&&&&&& FILE LIST: ",fileList);
     const gameFolder = this.jirenHelper.makeFolder("/Game");
-    console.log("GAME FOLDER: ",gameFolder);
+    console.log("GAME FOLDER CREATED: ",gameFolder);
     await this.extractor.extract(fileList, gameFolder);
     console.log("EXTRACT:) ");
     return gameFolder;

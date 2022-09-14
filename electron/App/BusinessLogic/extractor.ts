@@ -26,14 +26,18 @@ export class Extractor implements IExtractor {
   }
 
   public async extract(fileLocation: string[], folderDest: string): Promise<void> {
+    console.log("/*/ extract method /*/", fileLocation,folderDest);
     if (fileLocation.length > 1) throw new Error("Multiple files not implemented yet");
     const compressionType = this.jirenHelper.detectCompressionType(fileLocation[0]);
     switch (compressionType) {
       case "rar":
+        console.log("-- EXTRACTING .rar --");
+        this.jirenHelper.sendFeedBack("Extracting .rar file")
         await this.unCompressRar(fileLocation[0], folderDest);
         return;
         break;
       case "7z":
+        this.jirenHelper.sendFeedBack("Extracting .7z file");
         await this.unCompress7z(fileLocation[0], folderDest);
         return;
         break;
@@ -55,6 +59,7 @@ export class Extractor implements IExtractor {
       counter += 1;
       const prgoress = "Uncompressing Files: " + counter + "/" + length;
       //event.sender.send("feedBack", prgoress);
+      this.jirenHelper.sendFeedBack(prgoress);
       if (entry.isDirectory) this.fs.mkdirSync(folderDest + "/" + entry.name);
       else {
         const result = await zip.extract(entry.name, folderDest + "/" + entry.name);

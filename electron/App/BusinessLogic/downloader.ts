@@ -40,9 +40,11 @@ export class Downloader implements IDownloader {
       const link = urlList[i];
       const partNumber = i+1;
       const finalPath = folderPath + "/part" + partNumber + "." + extension;
-      await this.downloadLink(link,finalPath);
       pathList.push(finalPath)
+      await this.downloadLink(link,finalPath);
     }
+    console.log("WE LEFT FOR :)");
+    
     return pathList;
   }
 
@@ -65,7 +67,7 @@ export class Downloader implements IDownloader {
     let downloableLink: string = "";
     if (serverName === "mediafire")
       downloableLink = await this.fetchMediafireDownloadLink(link);
-    this.downloadFile(downloableLink, finalPath);
+    return this.downloadFile(downloableLink, finalPath);
   }
 
   private async fetchMediafireDownloadLink(mediafireLink: string) {
@@ -86,26 +88,38 @@ export class Downloader implements IDownloader {
     return link;
   }
 
-  private async downloadFile(url: string, dest: string) {
-    var file = this.fs.createWriteStream(dest);
-    const downloadProgress = this.downloadProgress;
-    const fs = this.fs;
-    var request = this.https
-      .get(url, function (response: IncomingMessage) {
-        response.pipe(file);
-        downloadProgress(response);
-      })
-      .on("error", function (err: any) {
-        fs.unlink(dest, () => {}); // Delete the file async. (But we don't check the result)
-      });
+  private async downloadFile(url: string, dest: string):Promise<void> {
+    return new Promise(async (res,rej) => {
+      console.log("****** DOWNLOAD FILE METHOD URL:",url,dest);
+      var file = this.fs.createWriteStream(dest);
+      const downloadProgress = this.downloadProgress;
+      const fs = this.fs;
+      console.log("WE ARE ABOUT TO REQUEST!");
+      this.https
+        .get(url, (response: IncomingMessage) => {
+          console.log("  ¨¨ requesting ¨¨ ");
+          response.pipe(file);
+          downloadProgress.bind(this)(response);
+        })
+        .on("error", function (err: any) {
+          console.log("error on downloadFile :(");
+          fs.unlink(dest, () => {}); // Delete the file async. (But we don't check the result)
+        });
+        file.on("finish", () => {
+          console.log("FINISH DOWNLOAD :)");
+          res();
+        })
+    })
+    
   }
 
   private downloadProgress(response: any) {
+    console.log("////// DOWNLOAD PROGRESS METHOD /////");
     var len = parseInt(response.headers["content-length"], 10);
     var cur = 0;
     response.on("data",  (chunk: any) => {
       cur += chunk.length;
-      const result = "Downloading " + ((100.0 * cur) / len).toFixed(2) + "% ";
+      const result = "Downloading " + ((100.0 * cur) / len).toFixed(0) + "% ";
       this.jirenHelper.sendFeedBack(result);
       //event.sender.send("feedBack", result);
     });

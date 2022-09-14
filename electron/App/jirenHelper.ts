@@ -20,6 +20,10 @@ export class JirenHelper implements IJirenHelper {
     this.jirenDir = jirenDir;
   }
 
+  public setChannel (channel: string){
+    this.channel = channel;
+  }
+
   public setEvent(event: Electron.IpcMainEvent, channel:string){
     this.event = event;
     this.channel = channel;

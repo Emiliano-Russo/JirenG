@@ -18,13 +18,27 @@ export const GameCardDownload = (props: Props) => {
 
   const feedback = (event:any,arg?:any) => {
     setFb(arg);
+    if(arg.includes("Downloading")){
+      const numberStr: string[] = arg.split(" ");
+      numberStr[1].replace("%","");
+      const number:number = parseInt(numberStr[1]);
+      setProgress((100-number));
+    }
+  }
+
+  const onDownloadReady = (event:any,arg?:any) => {
+    console.log("DOWNLOAD READY!");
+    message.success("Ready to play!");
+    dispatch(removeGameFromDownloads(props.game));
   }
 
   useEffect(() => {
     ipcRenderer.on("feedback", feedback);
+    ipcRenderer.on("download-ready",onDownloadReady)
 
     return () => {
       ipcRenderer.removeListener("feedback", feedback);
+      ipcRenderer.removeListener("download-ready",onDownloadReady);
     };
     
   },[]);
