@@ -58,7 +58,7 @@ export class Index implements IIndex {
     const contentPath: string = this.jirenHelper.makeFolder("/" + game.title); //All files of the game (zip parts, crack, gameFolder)
     console.log("//// ABOUT TO DOWNLOAD ////");
     const fileList: string[] = await this.downloader.download(game.downloadLinks, contentPath);
-    const gameFolder = this.jirenHelper.makeFolder("/Game");
+    const gameFolder = this.jirenHelper.makeFolder("/"+game.title+"/Game");
     console.log("GAME FOLDER CREATED: ",gameFolder);
     await this.extractor.extract(fileList, gameFolder);
     console.log("EXTRACT:) ");

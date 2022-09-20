@@ -10,8 +10,8 @@ export class JirenHelper implements IJirenHelper {
   private basePath: string; //e.g: "C:/Users/UserName/Documents/JirenGames";
   private childProcess: typeof ChildProcess;
   private jirenDir: string;
-  private event : Electron.IpcMainEvent | undefined;
-  private channel :string = "feedback";
+  private event: Electron.IpcMainEvent | undefined;
+  private channel: string = "feedback";
 
   constructor(childProcess: typeof ChildProcess, fs: typeof FileSystem, jirenDir: string) {
     this.fs = fs;
@@ -20,17 +20,18 @@ export class JirenHelper implements IJirenHelper {
     this.jirenDir = jirenDir;
   }
 
-  public setChannel (channel: string){
+  public setChannel(channel: string) {
     this.channel = channel;
   }
 
-  public setEvent(event: Electron.IpcMainEvent, channel:string){
+  public setEvent(event: Electron.IpcMainEvent, channel: string) {
     this.event = event;
     this.channel = channel;
   }
-  
-  public sendFeedBack (text: string) {
-    this.event?.sender.send(this.channel,text);
+
+  public sendFeedBack(arg: any) {
+    console.log("sendding feedback to channel: ",this.channel, "whit argument: ",arg);
+    this.event?.sender.send(this.channel, arg);
   }
 
   public getJirenDir(): string {

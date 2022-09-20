@@ -7,22 +7,21 @@ import { db } from "../../firebase";
 import { LinkGame, TorrentGame } from "../../types/Game.interface";
 
 export const Store: React.FC = () => {
-  const { items, isLoading, isStart, isEnd, getPrev, getNext } =
-    usePagination<LinkGame>(
-      query(collection(db, "Games"), orderBy("title", "asc")),
-      {
-        limit: 10,
-      }
-    );
+  const { items, isLoading, isStart, isEnd, getPrev, getNext } = usePagination<LinkGame>(
+    query(collection(db, "Games"), orderBy("title", "asc")),
+    {
+      limit: 10,
+    }
+  );
 
   const games: LinkGame[] | TorrentGame[] = useSelector(
-    (state: any) => state.games.games
+    (state: any) => state.games.downloadGameList
   );
 
   console.log("games:", games);
 
   return (
-    <div style={{width:"100%"}}>
+    <div style={{ width: "100%" }}>
       <h1>Store</h1>
       <div
         style={{

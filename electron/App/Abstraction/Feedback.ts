@@ -1,6 +1,5 @@
-
-export interface IFeedback{
-    setEvent : (event: Electron.IpcMainEvent, channel:string) => void;
-    sendFeedBack: (text:string) => void;
-    setChannel: (channel:string) => void;
+export interface IFeedback {
+  setEvent: (event: Electron.IpcMainEvent, channel: string) => void;
+  sendFeedBack: (arg: any) => void;
+  setChannel: (channel: string) => void;
 }
