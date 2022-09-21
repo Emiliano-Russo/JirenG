@@ -52,6 +52,7 @@ export const GameCardStore: React.FC<Props> = (props: Props) => {
             exit={{ opacity: 0 }}
             style={{ position: "absolute", bottom: "20px" }}
           >
+            <p style={{ color: "black", background: "white" }}>{props.game.totalSize}</p>
             <Button
               onClick={() => {
                 dispatch(addToDownloads(props.game));

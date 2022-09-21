@@ -24,13 +24,12 @@ export class JirenHelper implements IJirenHelper {
     this.channel = channel;
   }
 
-  public setEvent(event: Electron.IpcMainEvent, channel: string) {
+  public setComunication(event: Electron.IpcMainEvent, channel: string) {
     this.event = event;
     this.channel = channel;
   }
 
   public sendFeedBack(arg: any) {
-    console.log("sendding feedback to channel: ",this.channel, "whit argument: ",arg);
     this.event?.sender.send(this.channel, arg);
   }
 

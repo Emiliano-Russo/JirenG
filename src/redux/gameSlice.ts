@@ -50,6 +50,6 @@ function removeFrom(stateList: any, state: any, action: PayloadAction<LinkGame |
   localStorage.setItem(downloadGamesListID, JSON.stringify(stateList));
 }
 
-export const { addToDownloads, removeGameFromDownloads } = gamesSlice.actions;
+export const { addToDownloads, removeGameFromDownloads, addToLibrary, removeGameFromLibrary } = gamesSlice.actions;
 
 export default gamesSlice.reducer;

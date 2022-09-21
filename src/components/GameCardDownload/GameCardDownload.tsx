@@ -2,7 +2,7 @@ import { Button, message } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeGameFromDownloads } from "../../redux/gameSlice";
+import { addToLibrary, removeGameFromDownloads } from "../../redux/gameSlice";
 import { LinkGame, TorrentGame } from "../../types/Game.interface";
 const { ipcRenderer } = window.require("electron");
 
@@ -30,6 +30,7 @@ export const GameCardDownload = (props: Props) => {
     console.log("DOWNLOAD READY!");
     message.success("Ready to play!");
     dispatch(removeGameFromDownloads(props.game));
+    dispatch(addToLibrary(props.game));
   }
 
   useEffect(() => {

@@ -101,7 +101,7 @@ app.whenReady().then(() => {
 
 ipcMain.on("download-game", (event: Electron.IpcMainEvent, game) => {
   console.log("downloading...");
-  jirenHelper.setEvent(event, "feedback");
+  jirenHelper.setComunication(event, "feedback");
   index
     .installGame(game)
     .then((v) => {
@@ -114,8 +114,17 @@ ipcMain.on("download-game", (event: Electron.IpcMainEvent, game) => {
 });
 
 ipcMain.on("get-installed-games", (event: Electron.IpcMainEvent, game) => {
-  console.log("getting installed games...");
-  jirenHelper.setChannel("get-installed-games");
+  jirenHelper.setComunication(event, "get-installed-games");
   const names: string[] = index.getInstalledGames();
   jirenHelper.sendFeedBack(names);
+});
+
+ipcMain.on("play-game", (event: Electron.IpcMainEvent, gameName: string) => {
+  console.log("Play game: ", gameName);
+  index
+    .playGame(gameName)
+    .then(() => {})
+    .catch((err) => {
+      dialog.showErrorBox("Error", err.message);
+    });
 });

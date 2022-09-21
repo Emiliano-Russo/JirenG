@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { GameCardLibrary } from "../../components/GameCardLibrary/GameCardLibrary";
 import { Game } from "../../types/Game.interface";
 const { ipcRenderer } = window.require("electron");
 
 export const Installed: React.FC = () => {
   const [gameList, setGameList] = useState<Game[]>([]);
 
-  const list = useSelector((state: any) => state.games.libraryGameList);
+  const list: Game[] = useSelector((state: any) => state.games.libraryGameList);
   console.log("list from redux: ", list);
 
   useEffect(() => {
@@ -18,35 +19,23 @@ export const Installed: React.FC = () => {
   }, []);
 
   const onGettingInstalledGames = (event: any, gameNameList: string[]) => {
-    console.log("GETTING HERE!");
-    
-    console.log("game List: ", gameNameList);
-
-    const arr = gameNameList.map((gameName) => {
-      // const game = Memory.getGame(gameName);
-      // if (game != undefined) {
-      //   const gameNotUndefined = game;
-      //   return gameNotUndefined;
-      // } else {
-      //   return {
-      //     title: "error",
-      //     description: "error",
-      //     downloadLinks: ["error"],
-      //     imgUrl: "error",
-      //     totalSize: "error",
-      //     youtubeTrailerUrl: "error",
-      //   };
-      // }
+    gameNameList.forEach((name) => {
+      const game = list.find((game) => game.title === name); //shouldn't return undefined
+      if (game)
+        setGameList((prev) => {
+          const clone = [...prev];
+          clone.push(game);
+          return clone;
+        });
     });
-    // const filteredArr: Game[] = arr.filter(function (element) {
-    //   return element !== undefined;
-    // });
-    // setGameList(filteredArr);
   };
 
   return (
-    <div>
+    <div style={{ margin: "5px auto" }}>
       <h1>Installed</h1>
+      {gameList.map((game) => (
+        <GameCardLibrary game={game} />
+      ))}
     </div>
   );
 };
