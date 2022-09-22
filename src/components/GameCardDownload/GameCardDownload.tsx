@@ -16,33 +16,34 @@ export const GameCardDownload = (props: Props) => {
   const [fb, setFb] = useState("");
   const dispatch = useDispatch();
 
-  const feedback = (event:any,arg?:any) => {
+  const feedback = (event: any, arg?: any) => {
     setFb(arg);
-    if(arg.includes("Downloading")){
+    if (arg.includes("Downloading")) {
       const numberStr: string[] = arg.split(" ");
-      numberStr[1].replace("%","");
-      const number:number = parseInt(numberStr[1]);
-      setProgress((100-number));
+      numberStr[1].replace("%", "");
+      const number: number = parseInt(numberStr[1]);
+      setProgress(100 - number);
     }
-  }
+  };
 
-  const onDownloadReady = (event:any,arg?:any) => {
+  const onDownloadReady = (event: any, arg?: any) => {
     console.log("DOWNLOAD READY!");
     message.success("Ready to play!");
+    console.log("removed from downloads");
     dispatch(removeGameFromDownloads(props.game));
+    console.log("added to library");
     dispatch(addToLibrary(props.game));
-  }
+  };
 
   useEffect(() => {
     ipcRenderer.on("feedback", feedback);
-    ipcRenderer.on("download-ready",onDownloadReady)
+    ipcRenderer.on("download-ready", onDownloadReady);
 
     return () => {
       ipcRenderer.removeListener("feedback", feedback);
-      ipcRenderer.removeListener("download-ready",onDownloadReady);
+      ipcRenderer.removeListener("download-ready", onDownloadReady);
     };
-    
-  },[]);
+  }, []);
 
   const getProgress = () => {
     return `inset(${progress}% 0px 0px 0px`;
@@ -51,13 +52,13 @@ export const GameCardDownload = (props: Props) => {
   const removeFromDownloads = () => {
     message.info("Game Removed");
     dispatch(removeGameFromDownloads(props.game));
-  }
+  };
 
   const startDownload = () => {
     console.log("Starting download");
     setIsDownloading(true);
     ipcRenderer.send("download-game", props.game);
-  }
+  };
 
   return (
     <motion.div
@@ -93,7 +94,9 @@ export const GameCardDownload = (props: Props) => {
       />
       <div style={{ position: "absolute", top: "50%", width: "100%" }}>
         {!isDownloading ? (
-          <Button type="primary" onClick={startDownload}>Start Download</Button>
+          <Button type="primary" onClick={startDownload}>
+            Start Download
+          </Button>
         ) : (
           <div style={{ background: "black", opacity: "90%" }}>
             <h1 style={{ color: "white" }}>{fb}</h1>
@@ -106,11 +109,11 @@ export const GameCardDownload = (props: Props) => {
           position: "absolute",
           top: "-10px",
           right: "-10px",
-          borderRadius:"10px"
+          borderRadius: "10px",
         }}
-       danger
-       type="primary"
-       onClick={removeFromDownloads}
+        danger
+        type="primary"
+        onClick={removeFromDownloads}
       >
         X
       </Button>

@@ -46,13 +46,38 @@ export const GameCardStore: React.FC<Props> = (props: Props) => {
       />
       {hover ? (
         <>
+          <div
+            style={{
+              position: "absolute",
+              top: "0",
+              right: "0",
+              background: props.game.tested ? "lightgreen" : "pink",
+              zIndex: 5,
+              padding: "2px 5px",
+              borderBottomLeftRadius: "10px",
+            }}
+          >
+            {props.game.tested ? <h3>Tested</h3> : <h3>Not Tested</h3>}
+          </div>
+          <h4
+            style={{
+              color: "black",
+              background: "white",
+              position: "absolute",
+              top: "0",
+              left: "0",
+              padding: "2px 5px",
+              borderBottomRightRadius: "10px",
+            }}
+          >
+            {props.game.totalSize}
+          </h4>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             style={{ position: "absolute", bottom: "20px" }}
           >
-            <p style={{ color: "black", background: "white" }}>{props.game.totalSize}</p>
             <Button
               onClick={() => {
                 dispatch(addToDownloads(props.game));

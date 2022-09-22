@@ -11,4 +11,5 @@ export interface Game {
   imgUrl: string;
   totalSize: string;
   exeName?: string;
+  tested?: boolean;
 }
