@@ -1,4 +1,11 @@
-import { CrackMark, DownloableGame, ExternalGame, Website, Wished, WishedOptions } from "./Abstraction/Types";
+import {
+  CrackMark,
+  DownloableGame,
+  ExternalGame,
+  Website,
+  Wished,
+  WishedOptions,
+} from "./Abstraction/Types";
 import { IJirenHelper } from "./Abstraction/JirenHelper";
 import { IDownloader } from "./Abstraction/Downloader";
 import { IExtractor } from "./Abstraction/Extractor";
@@ -34,11 +41,8 @@ export class Index implements IIndex {
     this.wish = build.wish;
   }
 
-  public async addGame(game: ExternalGame) {}
-
-  public async startGame(title: string) {
-    const path = this.jirenHelper.findExeMagically(title);
-    this.jirenHelper.runExe(path);
+  public async addGame(game: ExternalGame) {
+    throw new Error("addGame not implemented");
   }
 
   public async installGame(game: DownloableGame) {
@@ -58,8 +62,8 @@ export class Index implements IIndex {
     const contentPath: string = this.jirenHelper.makeFolder("/" + game.title); //All files of the game (zip parts, crack, gameFolder)
     console.log("//// ABOUT TO DOWNLOAD ////");
     const fileList: string[] = await this.downloader.download(game.downloadLinks, contentPath);
-    const gameFolder = this.jirenHelper.makeFolder("/"+game.title+"/Game");
-    console.log("GAME FOLDER CREATED: ",gameFolder);
+    const gameFolder = this.jirenHelper.makeFolder("/" + game.title + "/Game");
+    console.log("GAME FOLDER CREATED: ", gameFolder);
     await this.extractor.extract(fileList, gameFolder);
     console.log("EXTRACT:) ");
     return gameFolder;
@@ -81,8 +85,9 @@ export class Index implements IIndex {
     return this.jirenHelper.deleteFolder("/" + gameTitle);
   }
 
-  public async playGame(gameTitle: string) {
-    const exeLocation = this.jirenHelper.findExeMagically(gameTitle);
+  public async playGame(gameTitle: string, exeName: string) {
+    const exeLocation = this.jirenHelper.findExeMagically(gameTitle, exeName);
+    console.log("exe location:", exeLocation);
     this.jirenHelper.runExe(exeLocation);
   }
 

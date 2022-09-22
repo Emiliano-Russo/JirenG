@@ -119,10 +119,10 @@ ipcMain.on("get-installed-games", (event: Electron.IpcMainEvent, game) => {
   jirenHelper.sendFeedBack(names);
 });
 
-ipcMain.on("play-game", (event: Electron.IpcMainEvent, gameName: string) => {
-  console.log("Play game: ", gameName);
+ipcMain.on("play-game", (event: Electron.IpcMainEvent, game: any) => {
+  console.log("Play game: ", game);
   index
-    .playGame(gameName)
+    .playGame(game.title, game.exeName)
     .then(() => {})
     .catch((err) => {
       dialog.showErrorBox("Error", err.message);

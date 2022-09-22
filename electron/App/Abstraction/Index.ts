@@ -11,7 +11,7 @@ export interface IIndex {
   getInstalledGames: () => string[];
   isInstalled: (title: string) => boolean;
   removeGame: (title: string) => Promise<void>;
-  startGame: (title: string) => void;
+  playGame: (title: string, exeName: string) => void;
 
   //scraping
   getWishedGames: (web: Website, options: WishedOptions) => Promise<Wished[]>;

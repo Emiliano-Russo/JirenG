@@ -8,7 +8,7 @@ export const GameCardLibrary = (props: { game: Game }) => {
   const [hover, setHover] = useState(false);
 
   const play = () => {
-    ipcRenderer.send("play-game", props.game.title);
+    ipcRenderer.send("play-game", props.game);
   };
 
   return (

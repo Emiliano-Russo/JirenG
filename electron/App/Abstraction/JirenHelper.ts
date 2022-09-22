@@ -12,7 +12,7 @@ export interface IJirenHelper extends IFeedback {
 
   runExe: (path: string) => void;
 
-  findExeMagically: (title: string) => string;
+  findExeMagically: (title: string, exeName: string) => string;
 
   getJirenDir: () => string;
 

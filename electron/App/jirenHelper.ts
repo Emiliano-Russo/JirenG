@@ -9,7 +9,6 @@ export class JirenHelper implements IJirenHelper {
   private fs: typeof FileSystem;
   private basePath: string; //e.g: "C:/Users/UserName/Documents/JirenGames";
   private childProcess: typeof ChildProcess;
-  private jirenDir: string;
   private event: Electron.IpcMainEvent | undefined;
   private channel: string = "feedback";
 
@@ -17,7 +16,6 @@ export class JirenHelper implements IJirenHelper {
     this.fs = fs;
     this.basePath = jirenDir;
     this.childProcess = childProcess;
-    this.jirenDir = jirenDir;
   }
 
   public setChannel(channel: string) {
@@ -34,7 +32,7 @@ export class JirenHelper implements IJirenHelper {
   }
 
   public getJirenDir(): string {
-    return this.jirenDir;
+    return this.basePath;
   }
 
   public async saveExternalGame(game: ExternalGame): Promise<void> {
@@ -67,11 +65,33 @@ export class JirenHelper implements IJirenHelper {
   }
 
   public runExe(exeLocation: string) {
-    this.childProcess.exec(exeLocation);
+    console.log("run exe: ", exeLocation);
+    const exe = this.childProcess.execFile;
+    exe(exeLocation);
   }
 
-  public findExeMagically(gameTitle: string): string {
-    throw new Error("Not implemented");
+  public findExeMagically(gameTitle: string, exeName: string): string {
+    let baseGameDir = this.basePath + "/" + gameTitle + "/Game";
+    const finalDistDir = this.accessingToSingleFolders(baseGameDir);
+    console.log("FINAL DIST DIR: ", finalDistDir);
+    const dirContent: string[] = this.fs.readdirSync(finalDistDir);
+    const exeFiles: string[] = dirContent.filter((dir) => dir.includes(exeName));
+    console.log("exe Files: ", exeFiles);
+    if (exeFiles.length > 1) throw new Error("Multiples .exe with the same name: " + exeName);
+    else return finalDistDir + "/" + exeFiles[0];
+  }
+
+  private accessingToSingleFolders(initialPath: string): string {
+    let folderContent = this.fs.readdirSync(initialPath);
+    if (folderContent.length == 1) {
+      const newPath = initialPath + "/" + folderContent[0];
+      if (!this.fs.lstatSync(newPath).isDirectory())
+        throw new Error("Only one file found in the game");
+      return this.accessingToSingleFolders(newPath);
+    } else {
+      //should never get here because the inital path is already the final path
+      return initialPath;
+    }
   }
 
   public findFirstMatchOnPath(startPath: string, filter: string): string {
