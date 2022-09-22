@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LinkGame, TorrentGame } from "../types/Game.interface";
+import { Game } from "../types/Game.interface";
 
 const downloadGamesListID = "download-list";
 const libraryGamesListID = "library-list";
@@ -17,39 +17,49 @@ export const gamesSlice = createSlice({
     libraryGameList: getInitialState(libraryGamesListID),
   },
   reducers: {
-    addToDownloads: (state, action: PayloadAction<LinkGame | TorrentGame>) => {
-      addTo(downloadGamesListID, state, action);
+    addToDownloads: (state, action: PayloadAction<Game>) => {
+      addTo(downloadGamesListID, state.downloadGameList, action);
     },
-    removeGameFromDownloads: (state, action: PayloadAction<LinkGame | TorrentGame>) => {
-      removeFrom(state.downloadGameList, state, action);
+    removeGameFromDownloads: (state, action: PayloadAction<Game>) => {
+      removeFrom(downloadGamesListID, state.downloadGameList, action);
     },
-    addToLibrary: (state, action: PayloadAction<LinkGame | TorrentGame>) => {
-      addTo(libraryGamesListID, state, action);
+    addToLibrary: (state, action: PayloadAction<Game>) => {
+      addTo(libraryGamesListID, state.libraryGameList, action);
     },
-    removeGameFromLibrary: (state, action: PayloadAction<LinkGame | TorrentGame>) => {
-      removeFrom(state.libraryGameList, state, action);
+    removeGameFromLibrary: (state, action: PayloadAction<Game>) => {
+      removeFrom(libraryGamesListID, state.libraryGameList, action);
+    },
+    passDownloadToLibrary: (state, action: PayloadAction<Game>) => {
+      removeFrom(downloadGamesListID, state.downloadGameList, action);
+      addTo(libraryGamesListID, state.libraryGameList, action);
     },
   },
 });
 
-function addTo(storageId: string, state: any, action: PayloadAction<LinkGame | TorrentGame>) {
-  state.downloadGameList.push(action.payload);
+function addTo(storageId: string, stateList: any, action: PayloadAction<Game>) {
+  stateList.push(action.payload);
   const stringy = localStorage.getItem(storageId);
   if (stringy) {
     const games = JSON.parse(stringy);
     games.push(action.payload);
     localStorage.setItem(storageId, JSON.stringify(games));
   } else {
-    localStorage.setItem(storageId, JSON.stringify([action.payload]));
+    localStorage.setItem(storageId, JSON.stringify(stateList));
   }
 }
 
-function removeFrom(stateList: any, state: any, action: PayloadAction<LinkGame | TorrentGame>) {
+function removeFrom(storageId: string, stateList: any, action: PayloadAction<Game>) {
   const index = stateList.findIndex((v: any) => v.title === action.payload.title);
   stateList.splice(index, 1);
-  localStorage.setItem(downloadGamesListID, JSON.stringify(stateList));
+  localStorage.setItem(storageId, JSON.stringify(stateList));
 }
 
-export const { addToDownloads, removeGameFromDownloads, addToLibrary, removeGameFromLibrary } = gamesSlice.actions;
+export const {
+  addToDownloads,
+  removeGameFromDownloads,
+  addToLibrary,
+  removeGameFromLibrary,
+  passDownloadToLibrary,
+} = gamesSlice.actions;
 
 export default gamesSlice.reducer;

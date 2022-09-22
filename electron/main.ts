@@ -128,3 +128,13 @@ ipcMain.on("play-game", (event: Electron.IpcMainEvent, game: any) => {
       dialog.showErrorBox("Error", err.message);
     });
 });
+
+ipcMain.on("remove-game", (event: Electron.IpcMainEvent, gameName: any) => {
+  console.log("Removing game: ", gameName);
+  index
+    .removeGame(gameName)
+    .then(() => {})
+    .catch((err) => {
+      dialog.showErrorBox("Error", err.message);
+    });
+});

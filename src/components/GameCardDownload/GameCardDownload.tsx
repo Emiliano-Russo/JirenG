@@ -1,19 +1,23 @@
 import { Button, message } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { addToLibrary, removeGameFromDownloads } from "../../redux/gameSlice";
-import { LinkGame, TorrentGame } from "../../types/Game.interface";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToLibrary,
+  passDownloadToLibrary,
+  removeGameFromDownloads,
+} from "../../redux/gameSlice";
+import { Game } from "../../types/Game.interface";
 const { ipcRenderer } = window.require("electron");
 
 interface Props {
-  game: LinkGame | TorrentGame;
+  game: Game;
 }
 
 export const GameCardDownload = (props: Props) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [progress, setProgress] = useState(100);
-  const [fb, setFb] = useState("");
+  const [fb, setFb] = useState(""); //feedback from backend
   const dispatch = useDispatch();
 
   const feedback = (event: any, arg?: any) => {
@@ -29,10 +33,7 @@ export const GameCardDownload = (props: Props) => {
   const onDownloadReady = (event: any, arg?: any) => {
     console.log("DOWNLOAD READY!");
     message.success("Ready to play!");
-    console.log("removed from downloads");
-    dispatch(removeGameFromDownloads(props.game));
-    console.log("added to library");
-    dispatch(addToLibrary(props.game));
+    dispatch(passDownloadToLibrary(props.game));
   };
 
   useEffect(() => {

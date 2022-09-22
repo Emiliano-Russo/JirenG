@@ -21,9 +21,9 @@ import {
   orderBy,
   startAt,
   enableIndexedDbPersistence,
-  deleteDoc
+  deleteDoc,
 } from "firebase/firestore";
-import { LinkGame } from "../types/Game.interface";
+import { Game } from "../types/Game.interface";
 
 // Your web app's Firebase configuration
 
@@ -89,17 +89,15 @@ export const emailExists = async (email: string) => {
   return querySnapshot.docs.length > 0;
 };
 
-export const getGames = async(index:number,amount:number) => {
-  const gamesRef = collection(db,"Games");
-  const q = query(gamesRef,orderBy("title"),startAt(index),limit(amount));
+export const getGames = async (index: number, amount: number) => {
+  const gamesRef = collection(db, "Games");
+  const q = query(gamesRef, orderBy("title"), startAt(index), limit(amount));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    console.log("DOC:",doc.data());
-  })
-  return querySnapshot  
-}
-
-
+    console.log("DOC:", doc.data());
+  });
+  return querySnapshot;
+};
 
 export const changeUsername = async (uid: string, newUsername: string) => {
   const exists = await usernameExists(newUsername);
@@ -108,7 +106,7 @@ export const changeUsername = async (uid: string, newUsername: string) => {
     console.log("Throwing new error");
     throw new Error("Username already taken");
   }
-  const usersRef = collection(db, "users"); 
+  const usersRef = collection(db, "users");
   const q = query(usersRef, where("uid", "==", uid));
   const querySnapshot = await getDocs(q);
   const userRef = querySnapshot.docs[0].ref;
@@ -117,18 +115,18 @@ export const changeUsername = async (uid: string, newUsername: string) => {
   });
 };
 
-export const deleteGame = async(title:string) => {
-  const gamesRef = collection(db,"Games");
+export const deleteGame = async (title: string) => {
+  const gamesRef = collection(db, "Games");
   const q = query(gamesRef, where("title", "==", title));
   const querySnapshot = await getDocs(q);
   const gameRef = querySnapshot.docs[0].ref;
   console.log("we are about to delete");
   return deleteDoc(gameRef);
-}
+};
 
-export const addNewGame = async (game:LinkGame) => {
+export const addNewGame = async (game: Game) => {
   return addDoc(collection(db, "Games"), game);
-}
+};
 
 export const sendPasswordReset = async (email: string) => {
   try {
@@ -143,10 +141,7 @@ export const logout = () => {
   signOut(auth);
 };
 
-export const logInWithEmailAndPassword = async (
-  email: string,
-  password: string
-) => {
+export const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
     const result = await signInWithEmailAndPassword(auth, email, password);
     return result;
@@ -154,4 +149,3 @@ export const logInWithEmailAndPassword = async (
     console.error(err);
   }
 };
-

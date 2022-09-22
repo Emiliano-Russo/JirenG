@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { GameCardDownload } from "../../components/GameCardDownload/GameCardDownload";
-import { LinkGame, TorrentGame } from "../../types/Game.interface";
+import { Game } from "../../types/Game.interface";
 
 export const Downloads: React.FC = () => {
-  const gamesToDownload: LinkGame[] | TorrentGame[] = useSelector(
-    (state: any) => state.games.downloadGameList
-  );
+  const list = useSelector((state: any) => state.games.downloadGameList);
+  const [gamesToDownload, setGamesToDownload] = useState<Game[]>([]);
+
+  useEffect(() => {
+    setGamesToDownload(list);
+  }, [list]);
 
   console.log("games to download: ", gamesToDownload);
 

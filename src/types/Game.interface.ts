@@ -1,12 +1,7 @@
-export interface LinkGame extends Game {
-  links: string[];
-}
-
-export interface TorrentGame extends Game {
-  magnetUri: string;
-}
-
 export interface Game {
+  links?: string[];
+  crackLink?: string;
+  magnetUri?: string;
   title: string;
   imgUrl: string;
   totalSize: string;

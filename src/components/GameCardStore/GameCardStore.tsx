@@ -1,12 +1,12 @@
 import { Button, message, Modal, Spin } from "antd";
 import { useState } from "react";
-import { LinkGame, TorrentGame } from "../../types/Game.interface";
+import { Game } from "../../types/Game.interface";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { addToDownloads } from "../../redux/gameSlice";
 
 interface Props {
-  game: LinkGame | TorrentGame;
+  game: Game;
   alreadyDownload: boolean;
 }
 

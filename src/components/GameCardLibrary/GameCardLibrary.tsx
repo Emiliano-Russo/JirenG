@@ -1,14 +1,22 @@
 import { Button } from "antd";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { removeGameFromLibrary } from "../../redux/gameSlice";
 import { Game } from "../../types/Game.interface";
 const { ipcRenderer } = window.require("electron");
 
 export const GameCardLibrary = (props: { game: Game }) => {
   const [hover, setHover] = useState(false);
+  const dispatch = useDispatch();
 
   const play = () => {
     ipcRenderer.send("play-game", props.game);
+  };
+
+  const deleteGame = () => {
+    dispatch(removeGameFromLibrary(props.game));
+    ipcRenderer.send("remove-game", props.game.title);
   };
 
   return (
@@ -52,6 +60,21 @@ export const GameCardLibrary = (props: { game: Game }) => {
           Play
         </Button>
       </motion.div>
+      <button
+        className="btnHover"
+        style={{
+          position: "absolute",
+          top: "-5px",
+          right: "-5px",
+          borderRadius: "10px",
+          background: "red",
+          border: "none",
+          color: "white",
+        }}
+        onClick={deleteGame}
+      >
+        X
+      </button>
     </motion.div>
   );
 };

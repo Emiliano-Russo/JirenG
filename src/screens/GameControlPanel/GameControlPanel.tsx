@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { GameCardPanel } from "../../components/GameCardPanel/GameCardPanel";
 import { usePagination } from "use-pagination-firestore";
 import { addNewGame, getGames } from "../../firebase";
-import { LinkGame } from "../../types/Game.interface";
+import { Game } from "../../types/Game.interface";
 import { collection, query, orderBy } from "firebase/firestore";
 import { db } from "../../firebase/index";
 
 export const GameControlPanel: React.FC = () => {
-  const { items, isLoading, isStart, isEnd, getPrev, getNext } = usePagination<LinkGame>(
+  const { items, isLoading, isStart, isEnd, getPrev, getNext } = usePagination<Game>(
     query(collection(db, "Games"), orderBy("title", "asc")),
     {
       limit: 10,
@@ -28,7 +28,7 @@ export const GameControlPanel: React.FC = () => {
     const linkArr: string[] = links.split(",");
     const imgUrl: string = (document.getElementById("imgUrl") as HTMLInputElement).value;
     const size: string = (document.getElementById("size") as HTMLInputElement).value;
-    const linkGame: LinkGame = {
+    const linkGame: Game = {
       title,
       imgUrl,
       links: linkArr,

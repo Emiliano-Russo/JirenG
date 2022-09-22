@@ -4,19 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { usePagination } from "use-pagination-firestore";
 import { GameCardStore } from "../../components/GameCardStore/GameCardStore";
 import { db } from "../../firebase";
-import { LinkGame, TorrentGame } from "../../types/Game.interface";
+import { Game } from "../../types/Game.interface";
 
 export const Store: React.FC = () => {
-  const { items, isLoading, isStart, isEnd, getPrev, getNext } = usePagination<LinkGame>(
+  const { items, isLoading, isStart, isEnd, getPrev, getNext } = usePagination<Game>(
     query(collection(db, "Games"), orderBy("title", "asc")),
     {
       limit: 10,
     }
   );
 
-  const games: LinkGame[] | TorrentGame[] = useSelector(
-    (state: any) => state.games.downloadGameList
-  );
+  const games: Game[] = useSelector((state: any) => state.games.downloadGameList);
 
   console.log("games:", games);
 
