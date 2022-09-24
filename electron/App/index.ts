@@ -46,15 +46,16 @@ export class Index implements IIndex {
   }
 
   public async installGame(game: DownloableGame) {
-    const gameBasePath = await this.install(game);
-    if (game.crackLink) await this.cracker.crackGame(gameBasePath, game.crackLink); // Very special function (it does many things!)
+    //const gameBasePath = await this.install(game);
+    const gameBasePath = "C:/Users/USUARIO/Documents/JirenGames/GANG BEASTS PARA PC ENSPAÑOL/Game";
+    if (game.crackUrl) await this.cracker.crackGame(gameBasePath, game.crackUrl); // Very special function (it does many things!)
     this.jirenHelper.setChannel("download-ready");
     this.jirenHelper.sendFeedBack("game downloaded!");
   }
 
   public async installGameWithAssistant(game: DownloableGame, crackMark: CrackMark): Promise<void> {
     await this.install(game);
-    if (game.crackLink) await this.cracker.crackGameWithMark(game.crackLink, crackMark);
+    if (game.crackUrl) await this.cracker.crackGameWithMark(game.crackUrl, crackMark);
   }
 
   private async install(game: DownloableGame): Promise<string> {

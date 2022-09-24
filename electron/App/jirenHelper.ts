@@ -81,7 +81,7 @@ export class JirenHelper implements IJirenHelper {
     else return finalDistDir + "/" + exeFiles[0];
   }
 
-  private accessingToSingleFolders(initialPath: string): string {
+  public accessingToSingleFolders(initialPath: string): string {
     let folderContent = this.fs.readdirSync(initialPath);
     if (folderContent.length == 1) {
       const newPath = initialPath + "/" + folderContent[0];

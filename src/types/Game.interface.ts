@@ -1,6 +1,6 @@
 export interface Game {
   links?: string[];
-  crackLink?: string;
+  crackUrl?: string;
   magnetUri?: string;
   title: string;
   imgUrl: string;

@@ -1,7 +1,7 @@
 export type DownloableGame = {
   title: string;
   downloadLinks: string[];
-  crackLink?: string;
+  crackUrl?: string;
 };
 
 export enum Website {

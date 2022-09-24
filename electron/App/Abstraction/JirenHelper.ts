@@ -23,4 +23,6 @@ export interface IJirenHelper extends IFeedback {
   getServerName: (link: string) => string;
 
   detectCompressionType: (url: string) => "rar" | "zip" | "7z";
+
+  accessingToSingleFolders: (initialPath: string) => string;
 }
