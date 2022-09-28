@@ -41,8 +41,12 @@ export class JirenHelper implements IJirenHelper {
 
   public makeFolder(path: string): string {
     const dest = this.basePath + path;
-    if (!this.fs.existsSync(dest)) this.fs.mkdirSync(dest);
-    return dest;
+    return this.makeFolderFromZero(dest);
+  }
+
+  public makeFolderFromZero(path: string): string {
+    if (!this.fs.existsSync(path)) this.fs.mkdirSync(path);
+    return path;
   }
 
   public async deleteFolder(path: string): Promise<void> {

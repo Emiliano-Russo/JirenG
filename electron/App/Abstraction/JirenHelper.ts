@@ -2,6 +2,8 @@ import { IFeedback } from "./Feedback";
 import { ExternalGame } from "./Types";
 
 export interface IJirenHelper extends IFeedback {
+  makeFolderFromZero: (path: string) => string;
+
   makeFolder: (path: string) => string;
 
   deleteFolder: (path: string) => Promise<void>;

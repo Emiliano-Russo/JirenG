@@ -46,8 +46,7 @@ export class Index implements IIndex {
   }
 
   public async installGame(game: DownloableGame) {
-    //const gameBasePath = await this.install(game);
-    const gameBasePath = "C:/Users/USUARIO/Documents/JirenGames/GANG BEASTS PARA PC ENSPAÑOL/Game";
+    const gameBasePath = await this.install(game);
     if (game.crackUrl) await this.cracker.crackGame(gameBasePath, game.crackUrl); // Very special function (it does many things!)
     this.jirenHelper.setChannel("download-ready");
     this.jirenHelper.sendFeedBack("game downloaded!");
@@ -67,7 +66,7 @@ export class Index implements IIndex {
     console.log("GAME FOLDER CREATED: ", gameFolder);
     await this.extractor.extract(fileList, gameFolder);
     console.log("EXTRACT:) ");
-    return gameFolder;
+    return contentPath;
   }
 
   public async downloadGameByTorrent(magentUri: string) {
