@@ -4,6 +4,7 @@ import { Game } from "../../types/Game.interface";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { addToDownloads } from "../../redux/gameSlice";
+import { Badge } from "antd";
 
 interface Props {
   game: Game;
@@ -57,21 +58,43 @@ export const GameCardStore: React.FC<Props> = (props: Props) => {
               borderBottomLeftRadius: "10px",
             }}
           >
-            {props.game.tested ? <h3>Tested</h3> : <h3>Not Tested</h3>}
+            {props.game.tested ? (
+              <Badge.Ribbon
+                style={{ position: "absolute", top: "5px", right: "-12px" }}
+                color="green"
+                text="Working"
+              />
+            ) : (
+              <Badge.Ribbon
+                style={{ position: "absolute", top: "5px", right: "-12px" }}
+                color="red"
+                text="Not Tested"
+              />
+            )}
           </div>
-          <h4
+          <Badge.Ribbon
             style={{
-              color: "black",
-              background: "white",
               position: "absolute",
-              top: "0",
-              left: "0",
-              padding: "2px 5px",
-              borderBottomRightRadius: "10px",
+              top: "50px",
+              right: "-128px",
             }}
-          >
-            {props.game.totalSize}
-          </h4>
+            color="pink"
+            text={props.game.totalSize}
+          />
+          {props.game.version ? (
+            <Badge.Ribbon
+              style={{
+                position: "absolute",
+                top: "97px",
+                right: "-128px",
+              }}
+              color="blue"
+              text={props.game.version}
+            />
+          ) : (
+            <></>
+          )}
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

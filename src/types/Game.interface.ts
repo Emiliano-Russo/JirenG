@@ -7,4 +7,5 @@ export interface Game {
   totalSize: string;
   exeName?: string;
   tested?: boolean;
+  version?: string;
 }
