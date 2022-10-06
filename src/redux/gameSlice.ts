@@ -6,7 +6,7 @@ const libraryGamesListID = "library-list";
 
 function getInitialState(id: string) {
   const string = localStorage.getItem(id);
-  if (string != null) return JSON.parse(string);
+  if (string != null && string != "[]") return JSON.parse(string);
   else return [];
 }
 
