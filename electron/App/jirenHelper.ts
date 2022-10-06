@@ -4,6 +4,7 @@ import * as ChildProcess from "child_process";
 import { ExternalGame } from "./Abstraction/Types";
 import path from "path";
 import { IFeedback } from "./Abstraction/Feedback";
+const { shell } = require("electron");
 
 export class JirenHelper implements IJirenHelper {
   private fs: typeof FileSystem;
@@ -70,8 +71,9 @@ export class JirenHelper implements IJirenHelper {
 
   public runExe(exeLocation: string) {
     console.log("run exe: ", exeLocation);
-    const exe = this.childProcess.execFile;
-    exe(exeLocation);
+    shell.openPath(exeLocation);
+    // const exe = this.childProcess.execFile;
+    // exe(exeLocation);
   }
 
   public findExeMagically(gameTitle: string, exeName: string): string {

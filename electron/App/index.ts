@@ -86,8 +86,9 @@ export class Index implements IIndex {
   }
 
   public async playGame(gameTitle: string, exeName: string) {
-    const exeLocation = this.jirenHelper.findExeMagically(gameTitle, exeName);
-    console.log("exe location:", exeLocation);
+    //const exeLocation = this.jirenHelper.findExeMagically(gameTitle, exeName);
+    const exeLocation = this.jirenHelper.getJirenDir() + "/" + gameTitle + "/Game/" + exeName;
+    console.log("******** exe location:", exeLocation);
     this.jirenHelper.runExe(exeLocation);
   }
 
