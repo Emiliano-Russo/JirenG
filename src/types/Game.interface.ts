@@ -1,5 +1,5 @@
 export interface Game {
-  links?: string[];
+  downloadLinks?: string[];
   crackUrl?: string;
   magnetUri?: string;
   title: string;

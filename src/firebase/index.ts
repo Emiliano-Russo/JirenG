@@ -115,6 +115,15 @@ export const changeUsername = async (uid: string, newUsername: string) => {
   });
 };
 
+export const editGame = async (gameName: string, editedGameParts: any) => {
+  console.log("ENTERED TO EDIT GAMEEE");
+  const gamesRef = collection(db, "Games");
+  const q = query(gamesRef, where("title", "==", gameName));
+  const querySnapshot = await getDocs(q);
+  const gameRef = querySnapshot.docs[0].ref;
+  return updateDoc(gameRef, editedGameParts);
+};
+
 export const deleteGame = async (title: string) => {
   const gamesRef = collection(db, "Games");
   const q = query(gamesRef, where("title", "==", title));

@@ -31,7 +31,7 @@ export const GameControlPanel: React.FC = () => {
     const linkGame: Game = {
       title,
       imgUrl,
-      links: linkArr,
+      downloadLinks: linkArr,
       totalSize: size,
     };
     addNewGame(linkGame)
