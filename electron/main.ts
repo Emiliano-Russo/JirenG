@@ -47,8 +47,8 @@ const index = new Index(buildedIndex);
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 900,
-    height: 1200,
+    width: 1600,
+    height: 900,
     webPreferences: {
       // contextIsolation: false,
       preload: path.join(__dirname, "preload.js"),

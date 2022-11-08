@@ -50,7 +50,7 @@
   },
   "build": {
     "appId": "com.autoupdater.demo",
-    "productName": "Autoupdater Demo",
+    "productName": "Jiren Games",
     "directories": {
       "output": "electron-build",
       "buildResources": "build-assets"
@@ -58,7 +58,8 @@
     "win": {
       "publish": [
         "github"
-      ]
+      ],
+      "icon": "./public/jirenPink.png"
     },
     "files": [
       "build/**/*"
