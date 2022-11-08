@@ -1,6 +1,6 @@
 {
   "name": "my-app",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "author": "Your Name",
   "description": "React-TypeScript-Electron sample with Create React App and Electron Builder",
   "homepage": ".",
@@ -19,7 +19,9 @@
     "antd": "^4.22.8",
     "axios": "^0.27.2",
     "electron-devtools-installer": "^3.2.0",
+    "electron-is-dev": "^2.0.0",
     "electron-reload": "^1.5.0",
+    "electron-updater": "^5.3.0",
     "firebase": "^9.9.3",
     "framer-motion": "^7.2.1",
     "jsdom": "^19.0.0",
@@ -41,18 +43,27 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
+    "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p ./ -w\" \"wait-on http://localhost:3000 && tsc -p ./ && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:publish": "set GH_TOKEN= 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 && yarn build && tsc -p electron && electron-builder --win --publish always"
   },
   "build": {
-    "extends": null,
+    "appId": "com.autoupdater.demo",
+    "productName": "Autoupdater Demo",
+    "directories": {
+      "output": "electron-build",
+      "buildResources": "build-assets"
+    },
+    "win": {
+      "publish": [
+        "github"
+      ]
+    },
     "files": [
       "build/**/*"
     ],
-    "directories": {
-      "buildResources": "assets"
-    }
+    "extends": null
   },
   "eslintConfig": {
     "extends": [

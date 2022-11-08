@@ -27,6 +27,9 @@ const cracker = new Cracker(downloader, extractor, jirenHelper, fs);
 const torrent = new Torrent(child_process);
 const wish = new Wish();
 
+const { autoUpdater } = require("electron-updater");
+const isDev = require("electron-is-dev");
+
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
 }
@@ -44,8 +47,8 @@ const index = new Index(buildedIndex);
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1600,
-    height: 900,
+    width: 900,
+    height: 1200,
     webPreferences: {
       // contextIsolation: false,
       preload: path.join(__dirname, "preload.js"),
@@ -76,6 +79,8 @@ function createWindow() {
       hardResetMethod: "exit",
     });
   }
+
+  autoUpdater.checkForUpdates();
 }
 
 app.whenReady().then(() => {
@@ -97,6 +102,28 @@ app.whenReady().then(() => {
       app.quit();
     }
   });
+});
+
+autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
+  const dialogOpts: any = {
+    type: "info",
+    buttons: ["Ok"],
+    title: "Application Update",
+    message: process.platform === "win32" ? releaseNotes : releaseName,
+    detail: "A new version is being downloaded.",
+  };
+  dialog.showMessageBox(dialogOpts);
+});
+
+autoUpdater.on("update-not-available", (_event, releaseNotes, releaseName) => {
+  const dialogOpts: any = {
+    type: "info",
+    buttons: ["Ok"],
+    title: "Application Already Updated! :)",
+    message: process.platform === "win32" ? releaseNotes : releaseName,
+    detail: "everything is good",
+  };
+  dialog.showMessageBox(dialogOpts);
 });
 
 ipcMain.on("download-game", (event: Electron.IpcMainEvent, game) => {

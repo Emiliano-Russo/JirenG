@@ -4,10 +4,10 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "outDir": "../build",
     "rootDir": "../",
     "noEmitOnError": true,
-    "typeRoots": ["node_modules/@types"]
+    "noImplicitAny": false
   }
 }

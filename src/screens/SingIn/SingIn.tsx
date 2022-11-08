@@ -1,11 +1,7 @@
 import { Input, Button, message } from "antd";
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import {
-  getUser,
-  getUsername,
-  logInWithEmailAndPassword,
-} from "../../firebase";
+import { getUser, getUsername, logInWithEmailAndPassword } from "../../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/loginSlice";
 
