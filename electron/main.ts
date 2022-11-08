@@ -80,7 +80,7 @@ function createWindow() {
     });
   }
 
-  autoUpdater.checkForUpdates();
+  if (!isDev) autoUpdater.checkForUpdates();
 }
 
 app.whenReady().then(() => {
@@ -119,9 +119,20 @@ autoUpdater.on("update-not-available", (_event, releaseNotes, releaseName) => {
   const dialogOpts: any = {
     type: "info",
     buttons: ["Ok"],
-    title: "Application Already Updated! :)",
+    title: "Updated!",
     message: process.platform === "win32" ? releaseNotes : releaseName,
-    detail: "everything is good",
+    detail: "Jiren Games does not need any update",
+  };
+  dialog.showMessageBox(dialogOpts);
+});
+
+autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
+  const dialogOpts: any = {
+    type: "info",
+    buttons: ["Ok"],
+    title: "Updated ready!",
+    message: process.platform === "win32" ? releaseNotes : releaseName,
+    detail: "a new update was downloaded",
   };
   dialog.showMessageBox(dialogOpts);
 });
