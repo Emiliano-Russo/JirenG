@@ -6,6 +6,7 @@ import {
   addToLibrary,
   passDownloadToLibrary,
   removeGameFromDownloads,
+  setIsDownloadingGlobal,
 } from "../../redux/gameSlice";
 import { Game } from "../../types/Game.interface";
 const { ipcRenderer } = window.require("electron");
@@ -19,6 +20,7 @@ export const GameCardDownload = (props: Props) => {
   const [progress, setProgress] = useState(100);
   const [fb, setFb] = useState(""); //feedback from backend
   const dispatch = useDispatch();
+  const isDownloadingGlobal = useSelector((state: any) => state.games.isDownloading);
 
   const feedback = (event: any, arg?: any) => {
     setFb(arg);
@@ -34,15 +36,18 @@ export const GameCardDownload = (props: Props) => {
     console.log("DOWNLOAD READY!");
     message.success("Ready to play!");
     dispatch(passDownloadToLibrary(props.game));
+    dispatch(setIsDownloadingGlobal(false));
+  };
+
+  const onDownloadFailed = () => {
+    dispatch(setIsDownloadingGlobal(false));
   };
 
   useEffect(() => {
-    ipcRenderer.on("feedback", feedback);
-    ipcRenderer.on("download-ready", onDownloadReady);
-
     return () => {
       ipcRenderer.removeListener("feedback", feedback);
       ipcRenderer.removeListener("download-ready", onDownloadReady);
+      ipcRenderer.removeListener("download-failed", onDownloadFailed);
     };
   }, []);
 
@@ -57,7 +62,11 @@ export const GameCardDownload = (props: Props) => {
 
   const startDownload = () => {
     console.log("Starting download");
+    ipcRenderer.on("feedback", feedback);
+    ipcRenderer.on("download-ready", onDownloadReady);
+    ipcRenderer.on("download-failed", onDownloadFailed);
     setIsDownloading(true);
+    dispatch(setIsDownloadingGlobal(true));
     ipcRenderer.send("download-game", props.game);
   };
 
@@ -95,7 +104,7 @@ export const GameCardDownload = (props: Props) => {
       />
       <div style={{ position: "absolute", top: "50%", width: "100%" }}>
         {!isDownloading ? (
-          <Button type="primary" onClick={startDownload}>
+          <Button disabled={isDownloadingGlobal} type="primary" onClick={startDownload}>
             Start Download
           </Button>
         ) : (
@@ -106,6 +115,7 @@ export const GameCardDownload = (props: Props) => {
       </div>
 
       <Button
+        disabled={isDownloadingGlobal}
         style={{
           position: "absolute",
           top: "-10px",

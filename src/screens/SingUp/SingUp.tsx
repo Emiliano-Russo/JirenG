@@ -2,11 +2,7 @@ import { Input, Button, message } from "antd";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import {
-  emailExists,
-  registerWithEmailAndPassword,
-  usernameExists,
-} from "../../firebase";
+import { emailExists, registerWithEmailAndPassword, usernameExists } from "../../firebase";
 import { setUser } from "../../redux/loginSlice";
 
 export const SingUp = () => {
@@ -29,6 +25,11 @@ export const SingUp = () => {
       const emailTaken = await emailExists(email);
       if (emailTaken) {
         message.error("Email already taken");
+        setLoading(false);
+        return;
+      }
+      if (password.length < 8) {
+        message.error("Password too short (8 characters long required)");
         setLoading(false);
         return;
       }

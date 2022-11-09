@@ -20,15 +20,12 @@ interface PropsJirenSidebar {
 export const JirenSidebar = (props: PropsJirenSidebar) => {
   const [option, setOption] = useState<number>(0);
   const nav = useNavigate();
-  const user = useSelector(
-    (state: any) => state.login.user
-  );
+  const user = useSelector((state: any) => state.login.user);
+  const isDownloadingGlobal = useSelector((state: any) => state.games.isDownloading);
   const dispatch = useDispatch();
 
   return (
-    <div
-      style={{ backgroundColor: "#28282B", width: "180px", minHeight: "100%" }}
-    >
+    <div style={{ backgroundColor: "#28282B", width: "180px", minHeight: "100%" }}>
       <div
         style={{
           display: "flex",
@@ -36,13 +33,12 @@ export const JirenSidebar = (props: PropsJirenSidebar) => {
           justifyContent: "space-around",
         }}
       >
-        <h3 style={{ margin: 0, padding: "10px 0", color: "whitesmoke" }}>
-          {user.username}
-        </h3>
+        <h3 style={{ margin: 0, padding: "10px 0", color: "whitesmoke" }}>{user.username}</h3>
         <LoginOutlined
           style={{ color: "white" }}
-          className="hoverJirensidebar"
+          className={isDownloadingGlobal ? "" : "hoverJirensidebar"}
           onClick={async () => {
+            if (isDownloadingGlobal) return;
             await logout();
             dispatch(logOut());
             nav("/");
@@ -62,6 +58,7 @@ export const JirenSidebar = (props: PropsJirenSidebar) => {
         {props.optionList.map((val, i) => {
           return (
             <Button
+              disabled={isDownloadingGlobal}
               className="hoverJirensidebar"
               key={i}
               type="link"

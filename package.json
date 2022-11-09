@@ -1,6 +1,6 @@
 {
   "name": "my-app",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Your Name",
   "description": "React-TypeScript-Electron sample with Create React App and Electron Builder",
   "homepage": ".",
@@ -43,10 +43,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p ./ -w\" \"wait-on http://localhost:3000 && tsc -p ./ && electron .\"",
+    "electron:dev": "tsc -p electron && concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p ./ -w\" \"wait-on http://localhost:3000 && tsc -p ./ && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder",
     "eject": "react-scripts eject",
-    "build:publish": "set GH_TOKEN= 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 && yarn build && tsc -p electron && electron-builder --win --publish always"
+    "build:publish": "set GH_TOKEN= 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 && yarn build && tsc -p electron && electron-builder --win --publish always"
   },
   "build": {
     "appId": "com.autoupdater.demo",

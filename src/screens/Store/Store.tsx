@@ -10,7 +10,7 @@ export const Store: React.FC = () => {
   const { items, isLoading, isStart, isEnd, getPrev, getNext } = usePagination<Game>(
     query(collection(db, "Games"), orderBy("title", "asc")),
     {
-      limit: 8,
+      limit: 5,
     }
   );
 
@@ -21,6 +21,14 @@ export const Store: React.FC = () => {
   return (
     <div style={{ width: "100%" }}>
       <h1>Store</h1>
+      <div style={{ margin: "10px" }}>
+        <Button style={{ margin: "10px" }} onClick={() => getPrev()} disabled={isStart}>
+          Back
+        </Button>
+        <Button style={{ margin: "10px" }} disabled={isEnd} onClick={() => getNext()}>
+          Next
+        </Button>
+      </div>
       <div
         style={{
           display: "flex",
@@ -37,14 +45,6 @@ export const Store: React.FC = () => {
             />
           );
         })}
-      </div>
-      <div style={{ margin: "10px" }}>
-        <Button onClick={() => getPrev()} disabled={isStart}>
-          Back
-        </Button>
-        <Button disabled={isEnd} onClick={() => getNext()}>
-          Next
-        </Button>
       </div>
     </div>
   );

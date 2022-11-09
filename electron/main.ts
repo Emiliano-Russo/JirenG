@@ -54,6 +54,7 @@ function createWindow() {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
       contextIsolation: false,
+      devTools: isDev,
     },
   });
 
@@ -148,6 +149,8 @@ ipcMain.on("download-game", (event: Electron.IpcMainEvent, game) => {
     .catch((err) => {
       console.log("error: ", err);
       dialog.showErrorBox("Error", err.message);
+      jirenHelper.setChannel("download-failed");
+      jirenHelper.sendFeedBack(err.message);
     });
 });
 

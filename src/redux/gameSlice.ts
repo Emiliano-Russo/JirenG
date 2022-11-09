@@ -15,6 +15,7 @@ export const gamesSlice = createSlice({
   initialState: {
     downloadGameList: getInitialState(downloadGamesListID),
     libraryGameList: getInitialState(libraryGamesListID),
+    isDownloading: false,
   },
   reducers: {
     addToDownloads: (state, action: PayloadAction<Game>) => {
@@ -32,6 +33,9 @@ export const gamesSlice = createSlice({
     passDownloadToLibrary: (state, action: PayloadAction<Game>) => {
       removeFrom(downloadGamesListID, state.downloadGameList, action);
       addTo(libraryGamesListID, state.libraryGameList, action);
+    },
+    setIsDownloadingGlobal: (state, action: PayloadAction<boolean>) => {
+      state.isDownloading = action.payload;
     },
   },
 });
@@ -60,6 +64,7 @@ export const {
   addToLibrary,
   removeGameFromLibrary,
   passDownloadToLibrary,
+  setIsDownloadingGlobal,
 } = gamesSlice.actions;
 
 export default gamesSlice.reducer;
