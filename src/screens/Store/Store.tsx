@@ -10,7 +10,7 @@ export const Store: React.FC = () => {
   const { items, isLoading, isStart, isEnd, getPrev, getNext } = usePagination<Game>(
     query(collection(db, "Games"), orderBy("title", "asc")),
     {
-      limit: 10,
+      limit: 8,
     }
   );
 
