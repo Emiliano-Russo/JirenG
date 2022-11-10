@@ -46,6 +46,20 @@ const buildedIndex: IndexConstrcutor = {
 const index = new Index(buildedIndex);
 
 function createWindow() {
+  child_process.exec(
+    "netsh int tcp set global autotuninglevel=normal",
+    function (error, stdout, stderr) {
+      //console.dir(stdout);
+      const dialogOpts: any = {
+        type: "info",
+        buttons: ["Ok"],
+        title: "Mediafire Cmd Executed",
+        message: stdout,
+        detail: "A new version is being downloaded.",
+      };
+      dialog.showMessageBox(dialogOpts);
+    }
+  );
   const win = new BrowserWindow({
     width: 1600,
     height: 900,

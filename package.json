@@ -59,7 +59,8 @@
       "publish": [
         "github"
       ],
-      "icon": "./public/jirenPink.png"
+      "icon": "./public/jirenPink.png",
+      "requestedExecutionLevel": "highestAvailable"
     },
     "files": [
       "build/**/*"
