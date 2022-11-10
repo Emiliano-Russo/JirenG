@@ -20,6 +20,7 @@ import { Admin } from "./screens/Admin/Admin";
 import { GameControlPanel } from "./screens/GameControlPanel/GameControlPanel";
 
 function App() {
+  const bg = useSelector((state: any) => state.theme.background);
   const buildWithJirenSidebar = (element: ReactNode) => {
     return (
       <div
@@ -69,26 +70,20 @@ function App() {
     });
 
   return (
-    <div className="App">
+    <div style={{ background: bg }} className="App">
       <HashRouter>
         <Routes>
           <Route path="/" element={<SingIn />} />
           <Route path="/SingUp" element={<SingUp />} />
           <Route path="/Store" element={buildWithJirenSidebar(<Store />)} />
-          <Route
-            path="/Installed"
-            element={buildWithJirenSidebar(<Installed />)}
-          />
-          <Route
-            path="/Downloads"
-            element={buildWithJirenSidebar(<Downloads />)}
-          />
-          <Route
-            path="/Settings"
-            element={buildWithJirenSidebar(<Settings />)}
-          />
+          <Route path="/Installed" element={buildWithJirenSidebar(<Installed />)} />
+          <Route path="/Downloads" element={buildWithJirenSidebar(<Downloads />)} />
+          <Route path="/Settings" element={buildWithJirenSidebar(<Settings />)} />
           <Route path="/Admin" element={buildWithJirenSidebar(<Admin />)} />
-          <Route path="/Admin/GameControlPanel" element={buildWithJirenSidebar(<GameControlPanel/>)}/>
+          <Route
+            path="/Admin/GameControlPanel"
+            element={buildWithJirenSidebar(<GameControlPanel />)}
+          />
         </Routes>
       </HashRouter>
     </div>

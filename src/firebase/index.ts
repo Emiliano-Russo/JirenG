@@ -99,6 +99,18 @@ export const getGames = async (index: number, amount: number) => {
   return querySnapshot;
 };
 
+export const getThemes = async () => {
+  const gamesRef = collection(db, "Themes");
+  const q = query(gamesRef, orderBy("background"));
+  const querySnapshot = await getDocs(q);
+  const dataArr: any[] = [];
+  querySnapshot.forEach((doc) => {
+    console.log("--BACKGROUND DOC:", doc.data());
+    dataArr.push(doc.data());
+  });
+  return dataArr;
+};
+
 export const changeUsername = async (uid: string, newUsername: string) => {
   const exists = await usernameExists(newUsername);
   console.log("EXISTS: ", exists);
