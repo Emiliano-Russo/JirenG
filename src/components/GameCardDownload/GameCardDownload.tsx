@@ -33,7 +33,6 @@ export const GameCardDownload = (props: Props) => {
   };
 
   const onDownloadReady = (event: any, arg?: any) => {
-    console.log("DOWNLOAD READY!");
     message.success("Ready to play!");
     dispatch(passDownloadToLibrary(props.game));
     dispatch(setIsDownloadingGlobal(false));

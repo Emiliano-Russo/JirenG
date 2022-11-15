@@ -20,8 +20,6 @@ export const GameControlPanel: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const addGame = async () => {
-    console.log("Adding game...");
-
     setLoading(true);
     const title: string = (document.getElementById("title") as HTMLInputElement).value;
     const links: string = (document.getElementById("links") as HTMLInputElement).value;

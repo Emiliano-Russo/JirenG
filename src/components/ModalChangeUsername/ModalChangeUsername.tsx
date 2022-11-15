@@ -23,7 +23,6 @@ export const ModalChangeUsername: React.FC<Props> = (props: Props) => {
   const onOk = async () => {
     if (loading) return;
     setLoading(true);
-    console.log("Chaning username... :)");
     changeUsername(user.uid, username)
       .then(() => {
         message.success("Username modified successfully");
@@ -31,7 +30,6 @@ export const ModalChangeUsername: React.FC<Props> = (props: Props) => {
         props.onClose();
       })
       .catch((err) => {
-        console.log("error trying to change username", err);
         message.error("Username already exists");
       })
       .finally(() => {

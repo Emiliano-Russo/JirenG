@@ -15,12 +15,11 @@ export const Store: React.FC = () => {
   );
 
   const games: Game[] = useSelector((state: any) => state.games.downloadGameList);
-
-  console.log("games:", games);
+  const theme = useSelector((state: any) => state.theme);
 
   return (
     <div style={{ width: "100%" }}>
-      <h1>Store</h1>
+      <h1 style={{ color: theme.fontColorMainScreen }}>Store</h1>
       <div style={{ margin: "10px" }}>
         <Button style={{ margin: "10px" }} onClick={() => getPrev()} disabled={isStart}>
           Back

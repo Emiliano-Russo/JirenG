@@ -11,20 +11,15 @@ export const GameCardPanel: React.FC<Props> = (props: Props) => {
   const [visible, setVisible] = useState(false);
   const [editVisible, setEditVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log("PROPSssssssss: ", props);
 
   const deleteThisGame = async (title: string) => {
     if (loading) return;
-    console.log("DELETING GAME...");
     setLoading(true);
     deleteGame(title)
       .then(() => {
-        console.log("DELETED! :)");
         setVisible(false);
       })
-      .catch(() => {
-        console.log("FATAL ERROR :(");
-      })
+      .catch(() => {})
       .finally(() => {
         setLoading(false);
       });
@@ -34,7 +29,6 @@ export const GameCardPanel: React.FC<Props> = (props: Props) => {
     //TO BE CONTINUED....
     setLoading(true);
     Object.keys(obj).forEach((key) => (obj[key] === undefined ? delete obj[key] : {}));
-    console.log("SAVING... ", obj);
     editGame(props.game.title, obj)
       .then(() => {
         message.success("Game edited!");

@@ -7,6 +7,7 @@ const { ipcRenderer } = window.require("electron");
 export const Installed: React.FC = () => {
   const games = useSelector((state: any) => state.games.libraryGameList);
   const [list, setList] = useState<Game[]>([]);
+  const theme = useSelector((state: any) => state.theme);
 
   useEffect(() => {
     setList(games);
@@ -31,7 +32,7 @@ export const Installed: React.FC = () => {
 
   return (
     <div style={{ margin: "5px auto" }}>
-      <h1>Installed</h1>
+      <h1 style={{ color: theme.fontColorMainScreen }}>Installed</h1>
       <div
         style={{
           display: "flex",

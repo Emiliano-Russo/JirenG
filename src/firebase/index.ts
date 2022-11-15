@@ -93,9 +93,7 @@ export const getGames = async (index: number, amount: number) => {
   const gamesRef = collection(db, "Games");
   const q = query(gamesRef, orderBy("title"), startAt(index), limit(amount));
   const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    console.log("DOC:", doc.data());
-  });
+  querySnapshot.forEach((doc) => {});
   return querySnapshot;
 };
 
@@ -105,7 +103,6 @@ export const getThemes = async () => {
   const querySnapshot = await getDocs(q);
   const dataArr: any[] = [];
   querySnapshot.forEach((doc) => {
-    console.log("--BACKGROUND DOC:", doc.data());
     dataArr.push(doc.data());
   });
   return dataArr;
@@ -113,9 +110,7 @@ export const getThemes = async () => {
 
 export const changeUsername = async (uid: string, newUsername: string) => {
   const exists = await usernameExists(newUsername);
-  console.log("EXISTS: ", exists);
   if (exists) {
-    console.log("Throwing new error");
     throw new Error("Username already taken");
   }
   const usersRef = collection(db, "users");
@@ -128,7 +123,6 @@ export const changeUsername = async (uid: string, newUsername: string) => {
 };
 
 export const editGame = async (gameName: string, editedGameParts: any) => {
-  console.log("ENTERED TO EDIT GAMEEE");
   const gamesRef = collection(db, "Games");
   const q = query(gamesRef, where("title", "==", gameName));
   const querySnapshot = await getDocs(q);
@@ -141,7 +135,6 @@ export const deleteGame = async (title: string) => {
   const q = query(gamesRef, where("title", "==", title));
   const querySnapshot = await getDocs(q);
   const gameRef = querySnapshot.docs[0].ref;
-  console.log("we are about to delete");
   return deleteDoc(gameRef);
 };
 

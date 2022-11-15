@@ -21,21 +21,23 @@ export const JirenSidebar = (props: PropsJirenSidebar) => {
   const [option, setOption] = useState<number>(0);
   const nav = useNavigate();
   const user = useSelector((state: any) => state.login.user);
+  const theme = useSelector((state: any) => state.theme);
   const isDownloadingGlobal = useSelector((state: any) => state.games.isDownloading);
   const dispatch = useDispatch();
 
   return (
-    <div style={{ backgroundColor: "#28282B", width: "180px", minHeight: "100%" }}>
+    <div style={{ backgroundColor: theme.navBackground, width: "180px", minHeight: "100%" }}>
       <div
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-around",
+          color: "orange",
         }}
       >
-        <h3 style={{ margin: 0, padding: "10px 0", color: "whitesmoke" }}>{user.username}</h3>
+        <h3 style={{ margin: 0, padding: "10px 0", color: theme.navFontColor }}>{user.username}</h3>
         <LoginOutlined
-          style={{ color: "white" }}
+          style={{ color: theme.navFontColor }}
           className={isDownloadingGlobal ? "" : "hoverJirensidebar"}
           onClick={async () => {
             if (isDownloadingGlobal) return;
@@ -64,9 +66,9 @@ export const JirenSidebar = (props: PropsJirenSidebar) => {
               type="link"
               icon={val.icon}
               style={{
-                backgroundColor: option == i ? "#E3256B" : "inherit",
+                backgroundColor: option == i ? theme.navSelectedColor : "inherit",
                 textAlign: "left",
-                color: "white",
+                color: theme.navFontColor,
                 margin: "5px 0",
               }}
               onClick={() => {
