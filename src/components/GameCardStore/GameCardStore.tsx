@@ -30,10 +30,10 @@ export const GameCardStore: React.FC<Props> = (props: Props) => {
           alignContent: "center",
           alignItems: "center",
         }}
-        initial={{ opacity: 0, scale: 0.5, x: -300 }}
-        animate={{ opacity: 1, scale: 1, x: 0 }}
-        transition={{ duration: 0.2 }}
-        exit={{ right: -1000, position: "absolute" }}
+        initial={{ opacity: 0, scale: 0.5, y: 300 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        exit={{ position: "absolute", display: "none" }}
         className={hover ? "cardHover" : ""}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
