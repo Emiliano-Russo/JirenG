@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { Admin } from "./screens/Admin/Admin";
 import { GameControlPanel } from "./screens/GameControlPanel/GameControlPanel";
 import { Helmet } from "react-helmet";
+import { CreateTheme } from "./screens/CreateTheme/CreateTheme";
 
 function App() {
   const bg = useSelector((state: any) => state.theme.background);
@@ -88,6 +89,7 @@ function App() {
             path="/Admin/GameControlPanel"
             element={buildWithJirenSidebar(<GameControlPanel />)}
           />
+          <Route path="/Admin/CreateTheme" element={buildWithJirenSidebar(<CreateTheme />)} />
         </Routes>
       </HashRouter>
     </div>

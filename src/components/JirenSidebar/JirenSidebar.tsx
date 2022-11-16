@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/loginSlice";
 import { logout } from "../../firebase";
+import { Helmet } from "react-helmet";
 
 export interface Option {
   icon: React.ReactNode;
@@ -26,7 +27,7 @@ export const JirenSidebar = (props: PropsJirenSidebar) => {
   const dispatch = useDispatch();
 
   return (
-    <div style={{ backgroundColor: theme.navBackground, width: "180px", minHeight: "100%" }}>
+    <div style={{ background: theme.navBackground, width: "180px", minHeight: "100%" }}>
       <div
         style={{
           display: "flex",
@@ -35,6 +36,12 @@ export const JirenSidebar = (props: PropsJirenSidebar) => {
           color: "orange",
         }}
       >
+        <Helmet>
+          <style>{`.hoverJirensidebar:hover {
+          color: ${theme.hoverItemNavColor} !important;
+            cursor: pointer;
+          }`}</style>
+        </Helmet>
         <h3 style={{ margin: 0, padding: "10px 0", color: theme.navFontColor }}>{user.username}</h3>
         <LoginOutlined
           style={{ color: theme.navFontColor }}

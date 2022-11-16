@@ -19,6 +19,9 @@ export const Admin: React.FC = () => {
       <Button disabled type="primary" style={{ margin: "5px" }}>
         Users Panel
       </Button>
+      <Button type="primary" style={{ margin: "5px" }} onClick={() => nav("/Admin/CreateTheme")}>
+        Create Theme
+      </Button>
     </div>
   );
 };

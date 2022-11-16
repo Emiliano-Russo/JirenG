@@ -142,6 +142,18 @@ export const addNewGame = async (game: Game) => {
   return addDoc(collection(db, "Games"), game);
 };
 
+export const addTheme = async (theme: any) => {
+  return addDoc(collection(db, "Themes"), theme);
+};
+
+export const deleteTheme = async (title: string) => {
+  const gamesRef = collection(db, "Themes");
+  const q = query(gamesRef, where("title", "==", title));
+  const querySnapshot = await getDocs(q);
+  const gameRef = querySnapshot.docs[0].ref;
+  return deleteDoc(gameRef);
+};
+
 export const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
