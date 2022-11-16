@@ -16,7 +16,7 @@ export const Admin: React.FC = () => {
       >
         Videogames Panel
       </Button>
-      <Button type="primary" style={{ margin: "5px" }}>
+      <Button disabled type="primary" style={{ margin: "5px" }}>
         Users Panel
       </Button>
     </div>

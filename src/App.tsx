@@ -18,6 +18,7 @@ import { Settings } from "./screens/Settings/Settings";
 import { useSelector } from "react-redux";
 import { Admin } from "./screens/Admin/Admin";
 import { GameControlPanel } from "./screens/GameControlPanel/GameControlPanel";
+import { Helmet } from "react-helmet";
 
 function App() {
   const bg = useSelector((state: any) => state.theme.background);
@@ -70,7 +71,10 @@ function App() {
     });
 
   return (
-    <div style={{ background: bg }} className="App">
+    <div className="App">
+      <Helmet>
+        <style>{`body { background: ${bg}; }`}</style>
+      </Helmet>
       <HashRouter>
         <Routes>
           <Route path="/" element={<SingIn />} />
