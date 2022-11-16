@@ -27,13 +27,12 @@ export const JirenSidebar = (props: PropsJirenSidebar) => {
   const dispatch = useDispatch();
 
   return (
-    <div style={{ background: theme.navBackground, width: "180px", minHeight: "100%" }}>
+    <div style={{ background: theme.navBackground, minWidth: "180px", minHeight: "100%" }}>
       <div
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-around",
-          color: "orange",
         }}
       >
         <Helmet>

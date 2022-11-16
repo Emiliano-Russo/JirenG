@@ -1,9 +1,6 @@
-import { Button, Input, message, Modal } from "antd";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { changeUsername, getThemes } from "../../firebase";
-import { setNewUsername } from "../../redux/loginSlice";
-import { setBackground, setTheme } from "../../redux/themeSlice";
+import { Button, message, Modal } from "antd";
+import { useDispatch } from "react-redux";
+import { setTheme } from "../../redux/themeSlice";
 
 interface Props {
   isVisible: boolean;
@@ -39,6 +36,7 @@ export const ModalTheme: React.FC<Props> = (props: Props) => {
               style={{
                 background: val.background,
                 margin: "5px",
+                color: val.fontColorMainScreen,
               }}
               onClick={() => {
                 dispatch(setTheme(val));
