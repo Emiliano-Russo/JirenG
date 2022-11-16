@@ -39,6 +39,7 @@ export const ModalChangeUsername: React.FC<Props> = (props: Props) => {
 
   return (
     <Modal visible={props.isVisible} onCancel={props.onClose} onOk={onOk}>
+      <h3>New Username</h3>
       <Input
         value={username}
         onChange={(e) => setUsername(e.target.value)}

@@ -70,6 +70,7 @@ function createWindow() {
       contextIsolation: false,
       devTools: isDev,
     },
+    autoHideMenuBar: true,
   });
 
   if (app.isPackaged) {
