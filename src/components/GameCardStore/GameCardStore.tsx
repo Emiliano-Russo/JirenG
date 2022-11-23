@@ -49,6 +49,7 @@ export const GameCardStore: React.FC<Props> = (props: Props) => {
             width: "100%",
             filter: hover ? "saturate(2)" : "",
             position: "absolute",
+            borderRadius: "10px",
           }}
         />
         {hover ? (
