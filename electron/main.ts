@@ -189,7 +189,10 @@ ipcMain.on("remove-game", (event: Electron.IpcMainEvent, gameName: any) => {
   console.log("Removing game: ", gameName);
   index
     .removeGame(gameName)
-    .then(() => {})
+    .then(() => {
+      jirenHelper.setComunication(event, "remove-ready");
+      jirenHelper.sendFeedBack("removed!");
+    })
     .catch((err) => {
       dialog.showErrorBox("Error", err.message);
     });

@@ -4,31 +4,10 @@ import { GameCardLibrary } from "../../components/GameCardLibrary/GameCardLibrar
 import { Game } from "../../types/Game.interface";
 const { ipcRenderer } = window.require("electron");
 
+//Getting installed games directly from redux
 export const Installed: React.FC = () => {
   const games = useSelector((state: any) => state.games.libraryGameList);
-  const [list, setList] = useState<Game[]>([]);
   const theme = useSelector((state: any) => state.theme);
-
-  useEffect(() => {
-    setList(games);
-    ipcRenderer.on("get-installed-games", onGettingInstalledGames);
-    ipcRenderer.send("get-installed-games", "");
-    return () => {
-      ipcRenderer.removeListener("get-installed-games", onGettingInstalledGames);
-    };
-  }, [games]);
-
-  const onGettingInstalledGames = (event: any, gameNameList: string[]) => {
-    gameNameList.forEach((name) => {
-      const game = list.find((game) => game.title === name); //shouldn't return undefined
-      if (game)
-        setList((prev) => {
-          const clone = [...prev];
-          clone.push(game);
-          return clone;
-        });
-    });
-  };
 
   return (
     <div style={{ margin: "5px auto" }}>
@@ -41,7 +20,7 @@ export const Installed: React.FC = () => {
           justifyContent: "center",
         }}
       >
-        {list.map((game) => (
+        {games.map((game: any) => (
           <GameCardLibrary game={game} />
         ))}
       </div>

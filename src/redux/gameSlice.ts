@@ -53,9 +53,11 @@ function addTo(storageId: string, stateList: any, action: PayloadAction<Game>) {
 }
 
 function removeFrom(storageId: string, stateList: any, action: PayloadAction<Game>) {
+  console.log("** STATE BEFORE: ", stateList);
   const index = stateList.findIndex((v: any) => v.title === action.payload.title);
   stateList.splice(index, 1);
   localStorage.setItem(storageId, JSON.stringify(stateList));
+  console.log("** STATE AFTER: ", stateList);
 }
 
 export const {

@@ -125,7 +125,7 @@ export const GameCardDownload = (props: Props) => {
         type="primary"
         onClick={removeFromDownloads}
       >
-        X
+        Remove
       </Button>
     </motion.div>
   );
