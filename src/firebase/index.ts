@@ -109,8 +109,8 @@ export const getGames = async (index: number, amount: number) => {
 };
 
 export const getThemes = async () => {
-  const gamesRef = collection(db, "Themes");
-  const q = query(gamesRef, orderBy("background"));
+  const themesRef = collection(db, "Themes");
+  const q = query(themesRef, orderBy("background"));
   const querySnapshot = await getDocs(q);
   const dataArr: any[] = [];
   querySnapshot.forEach((doc) => {
@@ -130,6 +130,17 @@ export const changeUsername = async (uid: string, newUsername: string) => {
   const userRef = querySnapshot.docs[0].ref;
   updateDoc(userRef, {
     username: newUsername,
+  });
+};
+
+export const updateThemeUsing = async (uid: string, newTheme: string) => {
+  console.log("Updating theme!!!");
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("uid", "==", uid));
+  const querySnapshot = await getDocs(q);
+  const userRef = querySnapshot.docs[0].ref;
+  return updateDoc(userRef, {
+    usingTheme: newTheme,
   });
 };
 

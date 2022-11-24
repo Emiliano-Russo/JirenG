@@ -1,5 +1,6 @@
 import { Button, message, Modal } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateThemeUsing } from "../../firebase";
 import { setTheme } from "../../redux/themeSlice";
 
 interface Props {
@@ -10,6 +11,8 @@ interface Props {
 
 export const ModalTheme: React.FC<Props> = (props: Props) => {
   const dispatch = useDispatch();
+
+  const user = useSelector((state: any) => state.login.user);
 
   const onOk = async () => {
     props.onClose();
@@ -40,6 +43,7 @@ export const ModalTheme: React.FC<Props> = (props: Props) => {
               }}
               onClick={() => {
                 dispatch(setTheme(val));
+                updateThemeUsing(user.uid, val.title);
                 message.info("Changed to " + val.title);
               }}
             >
