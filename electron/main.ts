@@ -50,14 +50,14 @@ function createWindow() {
     "netsh int tcp set global autotuninglevel=normal",
     function (error, stdout, stderr) {
       //console.dir(stdout);
-      const dialogOpts: any = {
-        type: "info",
-        buttons: ["Ok"],
-        title: "Mediafire Cmd Executed",
-        message: stdout,
-        detail: "A new version is being downloaded.",
-      };
-      dialog.showMessageBox(dialogOpts);
+      // const dialogOpts: any = {
+      //   type: "info",
+      //   buttons: ["Ok"],
+      //   title: "Mediafire Cmd Executed",
+      //   message: stdout,
+      //   detail: "A new version is being downloaded.",
+      // };
+      // dialog.showMessageBox(dialogOpts);
     }
   );
   const win = new BrowserWindow({
@@ -131,16 +131,16 @@ autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
   dialog.showMessageBox(dialogOpts);
 });
 
-autoUpdater.on("update-not-available", (_event, releaseNotes, releaseName) => {
-  const dialogOpts: any = {
-    type: "info",
-    buttons: ["Ok"],
-    title: "Updated!",
-    message: process.platform === "win32" ? releaseNotes : releaseName,
-    detail: "Jiren Games does not need any update",
-  };
-  dialog.showMessageBox(dialogOpts);
-});
+// autoUpdater.on("update-not-available", (_event, releaseNotes, releaseName) => {
+//   const dialogOpts: any = {
+//     type: "info",
+//     buttons: ["Ok"],
+//     title: "Updated!",
+//     message: process.platform === "win32" ? releaseNotes : releaseName,
+//     detail: "Jiren Games does not need any update",
+//   };
+//   dialog.showMessageBox(dialogOpts);
+// });
 
 autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
   const dialogOpts: any = {
