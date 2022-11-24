@@ -20,6 +20,7 @@ import { Admin } from "./screens/Admin/Admin";
 import { GameControlPanel } from "./screens/GameControlPanel/GameControlPanel";
 import { Helmet } from "react-helmet";
 import { CreateTheme } from "./screens/CreateTheme/CreateTheme";
+import { UsersPanel } from "./screens/UsersPanel/UsersPanel";
 
 function App() {
   const bg = useSelector((state: any) => state.theme.background);
@@ -90,6 +91,7 @@ function App() {
             element={buildWithJirenSidebar(<GameControlPanel />)}
           />
           <Route path="/Admin/CreateTheme" element={buildWithJirenSidebar(<CreateTheme />)} />
+          <Route path="/Admin/UsersPanel" element={buildWithJirenSidebar(<UsersPanel />)}></Route>
         </Routes>
       </HashRouter>
     </div>

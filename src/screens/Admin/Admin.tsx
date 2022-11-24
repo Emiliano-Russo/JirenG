@@ -16,7 +16,7 @@ export const Admin: React.FC = () => {
       >
         Videogames Panel
       </Button>
-      <Button disabled type="primary" style={{ margin: "5px" }}>
+      <Button type="primary" style={{ margin: "5px" }} onClick={() => nav("/Admin/UsersPanel")}>
         Users Panel
       </Button>
       <Button type="primary" style={{ margin: "5px" }} onClick={() => nav("/Admin/CreateTheme")}>

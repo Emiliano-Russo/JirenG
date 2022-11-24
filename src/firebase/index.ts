@@ -82,6 +82,17 @@ export const getUser = async (uid: string) => {
   return querySnapshot.docs[0].data();
 };
 
+export const getAllUserData = async () => {
+  const usersRef = collection(db, "users");
+  const q = query(usersRef);
+  const querySnapshot = await getDocs(q);
+  const dataArr: any[] = [];
+  querySnapshot.forEach((doc) => {
+    dataArr.push(doc.data());
+  });
+  return dataArr;
+};
+
 export const emailExists = async (email: string) => {
   const usersRef = collection(db, "users");
   const q = query(usersRef, where("email", "==", email));
