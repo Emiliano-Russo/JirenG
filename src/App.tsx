@@ -10,7 +10,7 @@ import {
   SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Store } from "./screens/Store/Store";
 import { Downloads } from "./screens/Downloads/Downloads";
 import { Installed } from "./screens/Installed/Installed";
@@ -21,9 +21,12 @@ import { GameControlPanel } from "./screens/GameControlPanel/GameControlPanel";
 import { Helmet } from "react-helmet";
 import { CreateTheme } from "./screens/CreateTheme/CreateTheme";
 import { UsersPanel } from "./screens/UsersPanel/UsersPanel";
+import { Frame } from "./components/Frame/Frame";
+import { updateOnlineStatus } from "./firebase";
 
 function App() {
   const bg = useSelector((state: any) => state.theme.background);
+
   const buildWithJirenSidebar = (element: ReactNode) => {
     return (
       <div
@@ -41,6 +44,10 @@ function App() {
   };
 
   const user = useSelector((state: any) => state.login.user);
+  useEffect(() => {
+    console.log("updating online");
+    updateOnlineStatus(user.uid, true);
+  }, []);
 
   const options: Option[] = [
     {
@@ -73,28 +80,31 @@ function App() {
     });
 
   return (
-    <div className="App">
-      <Helmet>
-        <style>{`body { background: ${bg}; }`}</style>
-      </Helmet>
-      <HashRouter>
-        <Routes>
-          <Route path="/" element={<SingIn />} />
-          <Route path="/SingUp" element={<SingUp />} />
-          <Route path="/Store" element={buildWithJirenSidebar(<Store />)} />
-          <Route path="/Installed" element={buildWithJirenSidebar(<Installed />)} />
-          <Route path="/Downloads" element={buildWithJirenSidebar(<Downloads />)} />
-          <Route path="/Settings" element={buildWithJirenSidebar(<Settings />)} />
-          <Route path="/Admin" element={buildWithJirenSidebar(<Admin />)} />
-          <Route
-            path="/Admin/GameControlPanel"
-            element={buildWithJirenSidebar(<GameControlPanel />)}
-          />
-          <Route path="/Admin/CreateTheme" element={buildWithJirenSidebar(<CreateTheme />)} />
-          <Route path="/Admin/UsersPanel" element={buildWithJirenSidebar(<UsersPanel />)}></Route>
-        </Routes>
-      </HashRouter>
-    </div>
+    <>
+      <Frame></Frame>
+      <div className="App">
+        <Helmet>
+          <style>{`body { background: ${bg}; }`}</style>
+        </Helmet>
+        <HashRouter>
+          <Routes>
+            <Route path="/" element={<SingIn />} />
+            <Route path="/SingUp" element={<SingUp />} />
+            <Route path="/Store" element={buildWithJirenSidebar(<Store />)} />
+            <Route path="/Installed" element={buildWithJirenSidebar(<Installed />)} />
+            <Route path="/Downloads" element={buildWithJirenSidebar(<Downloads />)} />
+            <Route path="/Settings" element={buildWithJirenSidebar(<Settings />)} />
+            <Route path="/Admin" element={buildWithJirenSidebar(<Admin />)} />
+            <Route
+              path="/Admin/GameControlPanel"
+              element={buildWithJirenSidebar(<GameControlPanel />)}
+            />
+            <Route path="/Admin/CreateTheme" element={buildWithJirenSidebar(<CreateTheme />)} />
+            <Route path="/Admin/UsersPanel" element={buildWithJirenSidebar(<UsersPanel />)}></Route>
+          </Routes>
+        </HashRouter>
+      </div>
+    </>
   );
 }
 

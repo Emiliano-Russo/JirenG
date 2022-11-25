@@ -70,6 +70,7 @@ function createWindow() {
       contextIsolation: false,
       devTools: isDev,
     },
+    frame: false,
     autoHideMenuBar: true,
   });
 
@@ -151,6 +152,7 @@ autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
     detail: "a new update was downloaded",
   };
   dialog.showMessageBox(dialogOpts);
+  app.relaunch();
 });
 
 ipcMain.on("download-game", (event: Electron.IpcMainEvent, game) => {
@@ -196,4 +198,24 @@ ipcMain.on("remove-game", (event: Electron.IpcMainEvent, gameName: any) => {
     .catch((err) => {
       dialog.showErrorBox("Error", err.message);
     });
+});
+
+ipcMain.on("close-app", (event: Electron.IpcMainEvent, gameName: any) => {
+  console.log("closing app...");
+  app.quit();
+});
+
+ipcMain.on("minimize-app", (event: Electron.IpcMainEvent, gameName: any) => {
+  console.log("minimizing app...");
+  BrowserWindow.getFocusedWindow().minimize();
+});
+
+ipcMain.on("maximize-app", (event: Electron.IpcMainEvent, gameName: any) => {
+  console.log("maximize app...");
+  BrowserWindow.getFocusedWindow().maximize();
+});
+
+ipcMain.on("normal-size", (event: Electron.IpcMainEvent, gameName: any) => {
+  console.log("setting normal size app...");
+  BrowserWindow.getFocusedWindow().setSize(1600, 900, true);
 });
