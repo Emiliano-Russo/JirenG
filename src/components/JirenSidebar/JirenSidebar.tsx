@@ -27,7 +27,7 @@ export const JirenSidebar = (props: PropsJirenSidebar) => {
   const dispatch = useDispatch();
 
   return (
-    <div style={{ background: theme.navBackground, minWidth: "180px", minHeight: "100%" }}>
+    <div style={{ background: theme.navBackground, minWidth: "180px", minHeight: "97%" }}>
       <div
         style={{
           display: "flex",

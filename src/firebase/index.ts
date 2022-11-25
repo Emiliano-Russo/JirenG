@@ -144,6 +144,17 @@ export const updateThemeUsing = async (uid: string, newTheme: string) => {
   });
 };
 
+export const updateOnlineStatus = async (uid: string, online: boolean) => {
+  console.log("Updating status!!!");
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("uid", "==", uid));
+  const querySnapshot = await getDocs(q);
+  const userRef = querySnapshot.docs[0].ref;
+  return updateDoc(userRef, {
+    isOnline: online,
+  });
+};
+
 export const editGame = async (gameName: string, editedGameParts: any) => {
   const gamesRef = collection(db, "Games");
   const q = query(gamesRef, where("title", "==", gameName));
