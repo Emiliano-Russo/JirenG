@@ -8,4 +8,5 @@ export interface Game {
   exeName?: string;
   tested?: boolean;
   version?: string;
+  isLocalGame?: boolean;
 }

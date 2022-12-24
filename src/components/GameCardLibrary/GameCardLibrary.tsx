@@ -93,6 +93,11 @@ export const GameCardLibrary = (props: { game: Game }) => {
         transition: { duration: 0.5 },
       }}
     >
+      {props.game.isLocalGame ? (
+        <h1 style={{ zIndex: 100, color: "white" }}>{props.game.title}</h1>
+      ) : (
+        <></>
+      )}
       <img
         src={props.game.imgUrl}
         style={{
@@ -103,6 +108,7 @@ export const GameCardLibrary = (props: { game: Game }) => {
           borderRadius: "10px",
         }}
       />
+
       {hover ? btnsWhenHover : <></>}
       <Modal
         key={props.game.title}
