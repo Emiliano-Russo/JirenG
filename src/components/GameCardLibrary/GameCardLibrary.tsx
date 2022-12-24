@@ -1,4 +1,4 @@
-import { Button, message, Modal } from "antd";
+import { Badge, Button, message, Modal } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -30,10 +30,10 @@ export const GameCardLibrary = (props: { game: Game }) => {
 
   const deleteGame = () => {
     console.log("--Method: deleteGame()");
-    ipcRenderer.on("remove-ready", removeReady);
+    if (!props.game.isLocalGame) ipcRenderer.on("remove-ready", removeReady);
     setLoading(true);
     dispatch(removeGameFromLibrary(props.game));
-    ipcRenderer.send("remove-game", props.game.title);
+    if (!props.game.isLocalGame) ipcRenderer.send("remove-game", props.game.title);
     setModalOpen(false);
   };
 
@@ -110,6 +110,32 @@ export const GameCardLibrary = (props: { game: Game }) => {
       />
 
       {hover ? btnsWhenHover : <></>}
+
+      <div hidden={props.game.isLocalGame || !hover}>
+        <Badge.Ribbon
+          style={{
+            position: "absolute",
+            top: "50px",
+            right: "-127px",
+          }}
+          color="pink"
+          text={props.game.totalSize}
+        />
+        {props.game.version ? (
+          <Badge.Ribbon
+            style={{
+              position: "absolute",
+              top: "97px",
+              right: "-127px",
+            }}
+            color="blue"
+            text={props.game.version}
+          />
+        ) : (
+          <></>
+        )}
+      </div>
+
       <Modal
         key={props.game.title}
         confirmLoading={loading}
@@ -118,7 +144,14 @@ export const GameCardLibrary = (props: { game: Game }) => {
         open={modalOpen}
         onCancel={() => setModalOpen(false)}
       >
-        <h3>You sure want to delete the game? </h3>
+        <h2>Remove from Jiren Games? </h2>
+        {props.game.isLocalGame ? (
+          <p>
+            The game folder will not be deleted for local games, only disappears from Jiren Games
+          </p>
+        ) : (
+          <></>
+        )}
       </Modal>
     </motion.div>
   );

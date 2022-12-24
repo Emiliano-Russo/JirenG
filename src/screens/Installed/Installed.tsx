@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Upload } from "antd";
+import { Button, Form, Input, message, Modal, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GameCardLibrary } from "../../components/GameCardLibrary/GameCardLibrary";
@@ -17,6 +17,8 @@ export const Installed: React.FC = () => {
 
   const onAddGame = () => {
     console.log("adding game...", gameName, " -- ", exeName);
+    setModalOpen(false);
+    message.success("Game Added");
     const game: Game = {
       title: gameName,
       imgUrl: "https://i.pinimg.com/564x/d3/9c/d8/d39cd8b5f6f7f93be2cdb6df9738d702.jpg", //default (just black wallpaper)
@@ -34,6 +36,7 @@ export const Installed: React.FC = () => {
         onClick={() => {
           setModalOpen(true);
         }}
+        style={{ marginBottom: "25px" }}
       >
         Add Local Game
       </Button>
