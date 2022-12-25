@@ -84,7 +84,7 @@ function App() {
       <Frame></Frame>
       <div className="App">
         <Helmet>
-          <style>{`body { background: ${bg}; }`}</style>
+          <style>{`body { background: ${bg}; background-attachment: fixed; }`}</style>
         </Helmet>
         <HashRouter>
           <Routes>
