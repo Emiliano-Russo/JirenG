@@ -26,13 +26,13 @@ export class Extractor implements IExtractor {
   }
 
   public async extract(fileLocation: string[], folderDest: string): Promise<void> {
-    console.log("/*/ extract method /*/", fileLocation,folderDest);
+    console.log("/*/ extract method /*/", fileLocation, folderDest);
     if (fileLocation.length > 1) throw new Error("Multiple files not implemented yet");
     const compressionType = this.jirenHelper.detectCompressionType(fileLocation[0]);
     switch (compressionType) {
       case "rar":
         console.log("-- EXTRACTING .rar --");
-        this.jirenHelper.sendFeedBack("Extracting .rar file")
+        this.jirenHelper.sendFeedBack("Extracting .rar file");
         await this.unCompressRar(fileLocation[0], folderDest);
         return;
         break;
@@ -57,12 +57,26 @@ export class Extractor implements IExtractor {
     let counter = 0;
     for (const entry of Object.values(entries)) {
       counter += 1;
-      const prgoress = "Uncompressing Files: " + counter + "/" + length;
-      //event.sender.send("feedBack", prgoress);
-      this.jirenHelper.sendFeedBack(prgoress);
-      if (entry.isDirectory) this.fs.mkdirSync(folderDest + "/" + entry.name);
-      else {
-        const result = await zip.extract(entry.name, folderDest + "/" + entry.name);
+      const progress = "Uncompressing Files: " + counter + "/" + length;
+      this.jirenHelper.sendFeedBack(progress);
+      if (entry.isDirectory) {
+        console.log("Is directory!");
+        try {
+          this.fs.mkdirSync(folderDest + "/" + entry.name);
+        } catch (err) {
+          const finalFolder = entry.name.split("/")[0];
+          this.fs.mkdirSync(folderDest + "/" + finalFolder);
+          this.fs.mkdirSync(folderDest + "/" + entry.name);
+        }
+      } else {
+        console.log("is file!!");
+        try {
+          await zip.extract(entry.name, folderDest + "/" + entry.name);
+        } catch (err) {
+          const finalFolder = entry.name.split("/")[0];
+          this.fs.mkdirSync(folderDest + "/" + finalFolder);
+          await zip.extract(entry.name, folderDest + "/" + entry.name);
+        }
       }
     }
   }
