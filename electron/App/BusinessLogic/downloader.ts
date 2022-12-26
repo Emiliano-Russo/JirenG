@@ -28,30 +28,26 @@ export class Downloader implements IDownloader {
     this.jirenHelper = helper;
   }
 
-  public async download(
-    urlList: string[],
-    folderPath: string
-  ): Promise<string[]> {
-    console.log("DETECTING EXTENSION on url list ",urlList);
+  public async download(urlList: string[], folderPath: string): Promise<string[]> {
+    console.log("DETECTING EXTENSION on url list ", urlList);
     const extension = await this.detectExtension(urlList[0]);
-    console.log("EXTENSION:",extension);
+    console.log("EXTENSION:", extension);
     const pathList: string[] = [];
     for (let i = 0; i < urlList.length; i++) {
       const link = urlList[i];
-      const partNumber = i+1;
+      const partNumber = i + 1;
       const finalPath = folderPath + "/part" + partNumber + "." + extension;
-      pathList.push(finalPath)
-      await this.downloadLink(link,finalPath);
+      pathList.push(finalPath);
+      await this.downloadLink(link, finalPath);
     }
     console.log("WE LEFT FOR :)");
-    
+
     return pathList;
   }
 
   private async detectExtension(link: string) {
     const serverName = this.jirenHelper.getServerName(link);
-    if (serverName != "mediafire")
-      throw new Error("server: " + serverName + " not supported");
+    if (serverName != "mediafire") throw new Error("server: " + serverName + " not supported");
     return this.detectExtensionLinkMediafire(link);
   }
 
@@ -65,8 +61,7 @@ export class Downloader implements IDownloader {
   private async downloadLink(link: string, finalPath: string): Promise<void> {
     const serverName = "mediafire"; //this.getServerName(link);
     let downloableLink: string = "";
-    if (serverName === "mediafire")
-      downloableLink = await this.fetchMediafireDownloadLink(link);
+    if (serverName === "mediafire") downloableLink = await this.fetchMediafireDownloadLink(link);
     return this.downloadFile(downloableLink, finalPath);
   }
 
@@ -81,16 +76,13 @@ export class Downloader implements IDownloader {
         link = el.href;
       }
     });
-    if (link === "")
-      throw new Error(
-        "Error when trying to web scrap mediafire downloable link"
-      );
+    if (link === "") throw new Error("Error when trying to web scrap mediafire downloable link");
     return link;
   }
 
-  private async downloadFile(url: string, dest: string):Promise<void> {
-    return new Promise(async (res,rej) => {
-      console.log("****** DOWNLOAD FILE METHOD URL:",url,dest);
+  private async downloadFile(url: string, dest: string): Promise<void> {
+    return new Promise(async (res, rej) => {
+      console.log("****** DOWNLOAD FILE METHOD URL:", url, dest);
       var file = this.fs.createWriteStream(dest);
       const downloadProgress = this.downloadProgress;
       const fs = this.fs;
@@ -105,21 +97,26 @@ export class Downloader implements IDownloader {
           console.log("error on downloadFile :(");
           fs.unlink(dest, () => {}); // Delete the file async. (But we don't check the result)
         });
-        file.on("finish", () => {
-          console.log("FINISH DOWNLOAD :)");
-          res();
-        })
-    })
-    
+      file.on("finish", () => {
+        console.log("FINISH DOWNLOAD :)");
+        res();
+      });
+    });
   }
 
   private downloadProgress(response: any) {
     console.log("////// DOWNLOAD PROGRESS METHOD /////");
     var len = parseInt(response.headers["content-length"], 10);
     var cur = 0;
-    response.on("data",  (chunk: any) => {
+    var total = len / 1048576; //1048576 - bytes in  1Megabyte
+    response.on("data", (chunk: any) => {
       cur += chunk.length;
-      const result = "Downloading " + ((100.0 * cur) / len).toFixed(0) + "% ";
+      const result =
+        "Downloading " +
+        ((100.0 * cur) / len).toFixed(0) +
+        "% " +
+        (cur / 1048576).toFixed(1) +
+        " MB";
       this.jirenHelper.sendFeedBack(result);
       //event.sender.send("feedBack", result);
     });
